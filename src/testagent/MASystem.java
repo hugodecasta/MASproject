@@ -73,7 +73,9 @@ public class MASystem implements Drawable
     {
         while(true)
         {
-            manager.run();
+            if(remainingFood()>0)
+                manager.run();
+            
             frame.repaint();
             try
             {
@@ -111,7 +113,12 @@ public class MASystem implements Drawable
         if(remainingFood() > 0)
             endTime = System.currentTimeMillis();
         int second = (int)((endTime - startTime)/1000);
-        g.drawString("TIME : "+second+"s", (int)((x*w)+15), (int)((y*w)+45));
+        String strTime = second+"s";
+        if(second>60)
+        {
+            strTime = (int)(Math.floor(second/60))+"m"+second%60+"s";
+        }
+        g.drawString("TIME : "+strTime, (int)((x*w)+15), (int)((y*w)+45));
     }
     
     public int remainingFood()
