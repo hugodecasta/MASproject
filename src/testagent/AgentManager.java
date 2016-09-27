@@ -39,20 +39,24 @@ public class AgentManager implements Drawable
         ArrayList<Agent> removers = new ArrayList<>();
         for(Agent a : agents)
         {
-            a.find();
-            for(Food f : MASystem.manger)
+            if(!a.eatten)
             {
-                if(f.touched(a))
+                a.find();
+                for(Food f : MASystem.manger)
                 {
-                    removers.add(a);
-                    f.pick();
+                    if(f.touched(a))
+                    {
+                        removers.add(a);
+                        f.pick();
+                    }
                 }
             }
         }
         
         for(Agent a : removers)
         {
-            agents.remove(a);
+            //agents.remove(a);
+            a.eatten = true;
         }
     }
     
@@ -69,7 +73,7 @@ public class AgentManager implements Drawable
 
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
-    {        
+    {
         for(Agent a : agents)
         {
             a.draw(x,y,w,h,g);

@@ -45,7 +45,7 @@ public class MASystem implements Drawable
         //TODO
         // food aléa
         // food spot
-        int foodSize = 10;
+        int foodSize = 30;
         for(int i=0;i<nbMax;++i)
         {
             int x = (int)(Math.random()*width);
@@ -73,10 +73,7 @@ public class MASystem implements Drawable
     {
         while(true)
         {
-            if(remainingFood()>0)
-                manager.run();
-            
-            frame.repaint();
+            frame.draw();
             try
             {
                 Thread.sleep(30);
@@ -89,9 +86,16 @@ public class MASystem implements Drawable
         }
     }
     Color info = new Color(0,0,0,100);
+    
+    public void loop()
+    {       
+    }
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
     {
+        if(remainingFood()>0)
+            manager.run();
+        
         g.setColor(Color.lightGray);
         g.fillRect((int)((x-10)*w), (int)((y-10)*h), (int)((width+20)*w), (int)((height+20)*h));
         g.setColor(Color.GRAY);
@@ -102,8 +106,7 @@ public class MASystem implements Drawable
             f.draw(x,y,w,h,g);
         }
         
-        if(remainingFood() > 0)
-            manager.draw(x,y,w,h,g);
+        manager.draw(x,y,w,h,g);
         
         g.setColor(info);
         g.fillRect((int)(x*w),(int)(y*w),100,50);

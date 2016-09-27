@@ -39,6 +39,13 @@ public class MASFrame extends JFrame
         this.setVisible(true);
     }
     
+    boolean allowDraw = false;
+    public void draw()
+    {
+        allowDraw = true;
+        this.repaint();
+    }
+    
     class MASPanel extends JPanel
     {
         Drawable system;

@@ -7,6 +7,9 @@ package testagent;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import javax.imageio.ImageIO;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +24,7 @@ public class Agent implements Drawable
     ArrayList<Point>chemin;
     Color myColor;
     boolean eatten;
+    Image image;
     
     public Agent(int x,int y)
     {
@@ -30,6 +34,13 @@ public class Agent implements Drawable
         this.chemin = new ArrayList<>();
         initColor();
         initTailColor(200);
+        try
+        {
+            image = ImageIO.read(new File("src/testagent/eatter.png"));
+        }catch(Exception e)
+        {
+            System.err.append(e.getMessage());
+        }
     }
     
     private void initColor()
@@ -87,9 +98,12 @@ public class Agent implements Drawable
             int py1 = chemin.get(i-1).y;
             g.drawLine((int)((x+px1)*w), (int)((y+py1)*w), (int)(w*(x+px2)), (int)(w*(y+py2)));
         }
-        g.setColor(Color.white);
+        //g.setColor(Color.white);
         int size = 10;
-        g.fillOval((int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)), (int)(w*size), (int)(w*size));
+        int dsize = (int)(size*w)*2;
+        //g.fillOval((int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)), (int)(w*size), (int)(w*size));
+        
+        g.drawImage(image, (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)),dsize,dsize,null); 
     }
     
     Color[]meinColors;
