@@ -21,12 +21,14 @@ public class YourAlgo
         leviCrade(agent);
     }
     //-------------------------------------------
+    // Algo de deplacement 100% aleatoire
     public static void randTen(Agent agent)
     {
         int randXMove = random.nextInt(10-(-10)+1)+(-10);
         int randYMove = random.nextInt(10-(-10)+1)+(-10);
         agent.move(randXMove,randYMove);
     }
+    // Algo de deplacement imitation levi
     public static void leviCrade(Agent agent)
     {
         int min = 5;
