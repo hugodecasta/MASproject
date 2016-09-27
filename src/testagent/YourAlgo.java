@@ -26,6 +26,7 @@ public class YourAlgo
     {
         int randXMove = random.nextInt(10-(-10)+1)+(-10);
         int randYMove = random.nextInt(10-(-10)+1)+(-10);
+    
         agent.move(randXMove,randYMove);
     }
     // Algo de deplacement imitation levi

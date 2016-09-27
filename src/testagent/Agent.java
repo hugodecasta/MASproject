@@ -87,8 +87,9 @@ public class Agent implements Drawable
             int py1 = chemin.get(i-1).y;
             g.drawLine((int)((x+px1)*w), (int)((y+py1)*w), (int)(w*(x+px2)), (int)(w*(y+py2)));
         }
-        g.setColor(Color.red);
-        g.fillOval((int)(w*(x+this.x)), (int)(w*(y+this.y)), (int)(w*10), (int)(w*10));
+        g.setColor(Color.white);
+        int size = 10;
+        g.fillOval((int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)), (int)(w*size), (int)(w*size));
     }
     
     Color[]meinColors;
