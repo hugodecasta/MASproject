@@ -18,7 +18,7 @@ public class YourAlgo
     {
         if(random==null)
             random = new Random();
-        randTen(agent);
+        levy(agent);
     }
     //-------------------------------------------
     // Algo de deplacement 100% aleatoire
