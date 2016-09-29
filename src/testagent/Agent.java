@@ -26,8 +26,8 @@ public class Agent implements Drawable
     boolean eatten;
     Image image;
     //------------------------ pasBioInspi
-    public int directionY = -10;
-    public int directionX = 30;
+    public int directionY = Math.random()<.5?-10:10;
+    public int directionX = Math.random()<.5?-30:30;
     //------------------------ pasBioInspi
     
     public Agent(int x,int y)
