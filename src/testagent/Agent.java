@@ -25,6 +25,10 @@ public class Agent implements Drawable
     Color myColor;
     boolean eatten;
     Image image;
+    //------------------------ pasBioInspi
+    public int directionY = -10;
+    public int directionX = 30;
+    //------------------------ pasBioInspi
     
     public Agent(int x,int y)
     {
@@ -55,10 +59,10 @@ public class Agent implements Drawable
     {
         YourAlgo.find(this);
     }
-    
-    public void move(int xMove,int yMove)
+    public int move(int xMove,int yMove)
     {
-        chemin.add(new Point(x,y));
+        int bumped = -1;
+        
         if(chemin.size()==200)
             chemin.remove(0);
         
@@ -67,14 +71,27 @@ public class Agent implements Drawable
         
         int rebond = 10;
         if(x>MASystem.width)
+        {
+            bumped = 1;
             x = MASystem.width-rebond;
+        }
         else if(x<0)
+        {
+            bumped = 3;
             x = rebond;
-        
+        }
         if(y>MASystem.height)
+        {
+            bumped = 2;
             y = MASystem.height-rebond;
+        }
         else if(y<0)
+        {
+            bumped = 0;
             y = rebond;
+        }
+        chemin.add(new Point(x,y));
+        return bumped;
     }
     
     public String toString()

@@ -76,7 +76,7 @@ public class MASystem implements Drawable
             frame.draw();
             try
             {
-                Thread.sleep(30);
+                Thread.sleep(10);
             }
             catch(Exception e)
             {

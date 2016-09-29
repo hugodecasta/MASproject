@@ -39,7 +39,21 @@ public class YourAlgo
         int mut = random.nextInt(100)>98?max:min;
         agent.move((int)(((double)randXMove/10.0)*(double)mut),(int)(((double)randYMove/10.0)*(double)mut));
     }
-
+    // Algo de deplacement pas bio inspire
+    public static void pasBioInspire(Agent agent)
+    {
+        int bump = agent.move(0,agent.directionY);
+        if(bump == 2 || bump == 0)
+        {
+            agent.directionY *= -1;
+            bump = agent.move(agent.directionX,0);
+        }
+        
+        if(bump == 1 || bump == 3)
+        {
+            agent.directionX *= -1;
+        }
+    }
     // Levy fonctionnel
     public static void levy(Agent agent)
     {

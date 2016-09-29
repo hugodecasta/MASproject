@@ -1,0 +1,18 @@
+//TODO
+
+
+Amélioration graphiques:
+    - Taille panel = taille écran (et pas l'inverse)
+
+Interface:
+    - nombre d'entité (agent / food) -> curseur (min - max)
+    - gérer le sleep (curseur)
+    - case à cocher (mort de l'agent lors de la mangeaizon)
+    - case à cocher (réduire le chemin) + curseur si oui (taille max du chemin)
+    - selection du mode de déplacement (Radio ou Combo)
+    - démarrer la simuation / stopper la simulation
+
+Amélioration:
+    - principe spiral à mémoire
+    - répartition de la food (par secteur)
+   (- moving food)
