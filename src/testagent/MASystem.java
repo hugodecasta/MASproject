@@ -37,7 +37,7 @@ public class MASystem implements Drawable
     
     private void initFrame()
     {
-        frame = new MASFrame(width,height,1.75,this);
+        frame = new MASFrame(width,height,1.5,this);
     }
     private void initManger(int nbMax)
     {

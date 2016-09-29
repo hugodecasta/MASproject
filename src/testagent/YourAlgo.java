@@ -18,7 +18,7 @@ public class YourAlgo
     {
         if(random==null)
             random = new Random();
-        leviCrade(agent);
+        levy(agent);
     }
     //-------------------------------------------
     // Algo de deplacement 100% aleatoire
@@ -38,5 +38,28 @@ public class YourAlgo
         int randYMove = random.nextInt(10-(-10)+1)+(-10);
         int mut = random.nextInt(100)>98?max:min;
         agent.move((int)(((double)randXMove/10.0)*(double)mut),(int)(((double)randYMove/10.0)*(double)mut));
+    }
+
+    // Levy fonctionnel
+    public static void levy(Agent agent)
+    {
+        double alpha = 1;
+        double a = random.nextGaussian();
+        double b = random.nextGaussian();
+        
+        double transfo = 100.0;
+        double mSum = 0.0;
+        for(int i=0;i<transfo;++i)
+        {
+            double m = a/(Math.pow(Math.abs(b), 1/alpha));
+            mSum += m;
+        }
+        double zn = 1.0/Math.pow(transfo, 1.0/alpha)*mSum;
+        double pas = zn;
+        
+        double randXMove = random.nextDouble()*2-1;
+        double randYMove = random.nextDouble()*2-1;
+        
+        agent.move((int)(randXMove*pas),(int)(randYMove*pas));
     }
 }
