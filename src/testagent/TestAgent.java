@@ -18,8 +18,7 @@ public class TestAgent {
      */
     public static void main(String[] args)
     {
-        MASystem univers = new MASystem(500, 500, 10, 10);
-        univers.run();
+        MASystem univers = new MASystem(new SimulationParameter());
     }
     
 }

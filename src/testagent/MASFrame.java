@@ -19,24 +19,32 @@ import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 /**
  *
  * @author p1608557
  */
-public class MASFrame extends JFrame
+public class MASFrame extends JFrame implements ActionListener
 {
     MASPanel panel;
     JPanel GUI;
+    JButton initB,playPauseB;
+    MASystem system;
     
-    public MASFrame(int width,int height, Drawable system)
+    public MASFrame(int width,int height, MASystem system)
     {
         super("MAS test 1");
-        
+        this.system = system;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double sWidth = screenSize.getWidth();
         double sHeight = screenSize.getHeight();
@@ -54,27 +62,47 @@ public class MASFrame extends JFrame
         panel.setPreferredSize(new Dimension((int)tHeight,(int)tHeight));
         
         GUI = new JPanel();
-        GUI.setBackground(Color.red);
         GUI.setPreferredSize(new Dimension((int)guiSize+22,(int)tHeight));
         
-        /*double buttonBorder = 10;
-        JButton btn = new JButton("coucou");
-        GUI.add(btn,BorderLayout.CENTER);*/
+        JPanel initPanel = new JPanel();
+        initPanel.setBackground(Color.red);
+        initB = new JButton("INIT");
+        initB.addActionListener(this);
+        playPauseB = new JButton("play");
+        playPauseB.addActionListener(this);
+        initPanel.add(initB);
+        initPanel.add(playPauseB);
+        
+        JPanel cases = new JPanel();
+        cases.setLayout(new GridLayout(3,2));
+        cases.setBackground(Color.blue);
+        ButtonGroup group = new ButtonGroup();
+        JRadioButton rand_rad = new JRadioButton("random");
+        rand_rad.setSelected(true);
+        JRadioButton levy_rad = new JRadioButton("Levy");
+        JRadioButton levys_rad = new JRadioButton("levy simu");
+        JRadioButton baf_rad = new JRadioButton("back and forward");
+        group.add(rand_rad);
+        group.add(levy_rad);
+        group.add(levys_rad);
+        group.add(baf_rad);
+        
+        cases.add(rand_rad);
+        cases.add(levy_rad);
+        cases.add(levys_rad);
+        cases.add(baf_rad);
+        
+        JCheckBox cb = new JCheckBox("kill agent ?");
+        cases.add(cb);
+       
+        GUI.add(initPanel);
+        GUI.add(cases);
         
         this.add(panel,BorderLayout.CENTER);
         this.add(GUI,BorderLayout.EAST);
-        //this.add(panel,c);
-        /*JPanel p1 = new JPanel();
-        p1.setBackground(Color.red);
-        this.add(p1,c);
-        JPanel p2 = new JPanel();
-        p2.setBackground(Color.blue);
-        this.add(p2,c);
-        */
         
         this.pack();
         this.setVisible(true);
-        System.out.println(panel.getHeight()+" - "+panel.getWidth());
     }
     
     boolean allowDraw = false;
@@ -82,6 +110,28 @@ public class MASFrame extends JFrame
     {
         allowDraw = true;
         this.repaint();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource() == initB)
+        {
+            system.init(new SimulationParameter());
+        }
+        else if(e.getSource() == playPauseB)
+        {
+            if(system.play)
+            {
+                playPauseB.setText("play");
+                system.pause();
+            }
+            else
+            {
+                playPauseB.setText("pause");
+                system.play();
+            }
+        }
     }
     
     class MASPanel extends JPanel

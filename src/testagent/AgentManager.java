@@ -16,21 +16,23 @@ public class AgentManager implements Drawable
 {
     ArrayList<Agent>agents;
     int agentNumber;
+    boolean killAgent;
     
-    public AgentManager(int agentNumber)
+    public AgentManager(int agentNumber,boolean killAgent,int maxPathLength)
     {
         this.agentNumber = agentNumber;
-        initAgents();
+        this.killAgent = killAgent;
+        initAgents(maxPathLength);
     }
     
-    private void initAgents()
+    private void initAgents(int maxPathLength)
     {
         agents = new ArrayList<>();
         for(int i=0;i<agentNumber;++i)
         {
             int x = (int)(Math.random()*MASystem.width);
             int y = (int)(Math.random()*MASystem.height);
-            agents.add(new Agent(x,y));
+            agents.add(new Agent(x,y,maxPathLength));
         }
     }
     
@@ -39,7 +41,7 @@ public class AgentManager implements Drawable
         ArrayList<Agent> removers = new ArrayList<>();
         for(Agent a : agents)
         {
-            if(!a.eatten)
+            if(!(killAgent && a.eatten))
             {
                 a.find();
                 for(Food f : MASystem.manger)

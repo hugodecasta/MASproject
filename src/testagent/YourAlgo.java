@@ -14,11 +14,27 @@ import java.util.Random;
 public class YourAlgo
 {
     static Random random;
+    static int algoUsed;
     public static void find(Agent agent)
     {
         if(random==null)
             random = new Random();
-        levy(agent);
+        switch(algoUsed)
+        {
+            case 1:
+                levy(agent);break;
+            case 2:
+                leviCrade(agent);break;
+            case 3:
+                pasBioInspire(agent);break;
+            default:
+                randTen(agent);break;
+                
+        }
+    }
+    public static void setAlgoUsed(int algo)
+    {
+        algoUsed = algo;
     }
     //-------------------------------------------
     // Algo de deplacement 100% aleatoire

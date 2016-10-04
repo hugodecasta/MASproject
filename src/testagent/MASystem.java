@@ -22,17 +22,36 @@ public class MASystem implements Drawable
     public static ArrayList<Food> manger;
     public static int width, height;
     AgentManager manager;
+    int speed;
     MASFrame frame;
     long startTime,endTime;
     
-    public MASystem(int width,int height, int nbAgents, int nbFood)
+    public MASystem(SimulationParameter params)
     {
-        this.width = width;
-        this.height = height;
-        manager = new AgentManager(nbAgents);
-        startTime = System.currentTimeMillis();
-        initManger(nbFood);
+        init(params);
         initFrame();
+        run();
+    }
+    
+    public void init(SimulationParameter params)
+    {
+        this.width = params.width;
+        this.height = params.height;
+        manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength);
+        startTime = System.currentTimeMillis();
+        initManger(params.nbFood);
+        this.speed = params.speed;
+        YourAlgo.setAlgoUsed(params.usedAlgo);
+    }
+    
+    public void play()
+    {
+        play = true;
+    }
+    
+    public void pause()
+    {
+        play = false;
     }
     
     private void initFrame()
@@ -57,7 +76,6 @@ public class MASystem implements Drawable
             manger.add(new Food(x,y,foodSize));
         }
     }
-    
     public String toString()
     {
         String ret = "SYSTEM:";
@@ -68,7 +86,7 @@ public class MASystem implements Drawable
         ret += "\n"+manager;
         return ret;
     }
-    
+    boolean play;
     public void run()
     {
         while(true)
@@ -76,7 +94,7 @@ public class MASystem implements Drawable
             frame.draw();
             try
             {
-                Thread.sleep(10);
+                Thread.sleep(speed);
             }
             catch(Exception e)
             {

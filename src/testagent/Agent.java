@@ -25,19 +25,24 @@ public class Agent implements Drawable
     Color myColor;
     boolean eatten;
     Image image;
+    int maxPathLength;
+    boolean usePathLength;
     //------------------------ pasBioInspi
     public int directionY = Math.random()<.5?-10:10;
     public int directionX = Math.random()<.5?-30:30;
     //------------------------ pasBioInspi
     
-    public Agent(int x,int y)
+    public Agent(int x,int y,int maxPathLength)
     {
         this.x = x;
         this.y = y;
         this.angle = 90;
         this.chemin = new ArrayList<>();
         initColor();
-        initTailColor(200);
+        this.maxPathLength = maxPathLength;
+        usePathLength = maxPathLength>-1;
+        if(usePathLength)
+            initTailColor(maxPathLength);
         try
         {
             image = ImageIO.read(new File("src/testagent/eatter.png"));
@@ -63,7 +68,7 @@ public class Agent implements Drawable
     {
         int bumped = -1;
         
-        if(chemin.size()==200)
+        if(usePathLength && chemin.size()==maxPathLength)
             chemin.remove(0);
         
         x += xMove;
@@ -105,9 +110,16 @@ public class Agent implements Drawable
     {
         for(int i=1;i<chemin.size();++i)
         {
-            int colorIndex = meinColors.length-(chemin.size()-i);
-            colorIndex = colorIndex<0?0:colorIndex;
-            g.setColor(meinColors[colorIndex]);
+            if(usePathLength)
+            {
+                int colorIndex = meinColors.length-(chemin.size()-i);
+                colorIndex = colorIndex<0?0:colorIndex;
+                g.setColor(meinColors[colorIndex]);
+            }
+            else
+            {
+                g.setColor(myColor);
+            }
             //g.setColor(myColor);
             int px2 = chemin.get(i).x;
             int py2 = chemin.get(i).y;
