@@ -5,6 +5,8 @@
  */
 package testagent;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author p1608557

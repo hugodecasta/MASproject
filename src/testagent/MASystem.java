@@ -37,7 +37,7 @@ public class MASystem implements Drawable
     
     private void initFrame()
     {
-        frame = new MASFrame(width,height,1.5,this);
+        frame = new MASFrame(width,height,this);
     }
     private void initManger(int nbMax)
     {
@@ -96,10 +96,8 @@ public class MASystem implements Drawable
         if(remainingFood()>0)
             manager.run();
         
-        g.setColor(Color.lightGray);
-        g.fillRect((int)((x-10)*w), (int)((y-10)*h), (int)((width+20)*w), (int)((height+20)*h));
         g.setColor(Color.GRAY);
-        g.fillRect((int)((x+0)*w), (int)((y+0)*h), (int)(width*w), (int)(height*h));
+        g.fillRect((int)(x*w), (int)(y*h), (int)(width*w), (int)(height*h));
         
         for(Food f : manger)
         {
