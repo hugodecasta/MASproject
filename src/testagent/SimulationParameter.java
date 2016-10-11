@@ -17,6 +17,8 @@ public class SimulationParameter
     public int pathMaxLength=200;
     public boolean killAgent=true;
     public int usedAlgo=1;
+    public boolean foodSizeRandom=false;
+    public int foodSize=30;
     
     public SimulationParameter()
     {

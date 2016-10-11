@@ -7,6 +7,7 @@ package testagent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -22,6 +23,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.Border;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -33,6 +35,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -45,7 +49,7 @@ public class MASFrame extends JFrame implements ActionListener
     JButton initB,playPauseB;
     MASystem system;
     ButtonGroup algoRadioGroup;
-    JCheckBox killAgentBox,foodRepartitionBox;
+    JCheckBox killAgentBox,foodSizeBox;
     JSlider foodSlider,agentSlider,tailleEnvSlider,sleepSlider,pathSlider,taillePatchSlider;
     
     public MASFrame(int width,int height, MASystem system)
@@ -88,33 +92,18 @@ public class MASFrame extends JFrame implements ActionListener
         addRadio("robot", 3);
         
         killAgentBox = new JCheckBox("kill agent ?");
-        foodRepartitionBox = new JCheckBox("random food ?");
-        foodRepartitionBox.setSelected(true);
+        foodSizeBox = new JCheckBox("random food size ?");
         absParamPanel.add(killAgentBox);
-        absParamPanel.add(foodRepartitionBox);
+        absParamPanel.add(foodSizeBox);
                 
         cursorParamPanel = new JPanel();
         cursorParamPanel.setLayout(new GridLayout(2,3));
-        //cursorParamPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        foodSlider = new JSlider(JSlider.VERTICAL,1, 100, 2);
-        foodSlider.setName("food count");
-        foodSlider.setMajorTickSpacing(10);
-        foodSlider.setMinorTickSpacing(0);
-        foodSlider.setPaintLabels(true);
-        foodSlider.setPaintTicks(true);
-        foodSlider.setSnapToTicks(true);
-        agentSlider = new JSlider(JSlider.VERTICAL,1, 100, 2);
-        pathSlider = new JSlider(JSlider.VERTICAL,10, 301, 100);
-        
-        taillePatchSlider = new JSlider(JSlider.VERTICAL,10, 301, 100);
-        sleepSlider = new JSlider(JSlider.VERTICAL,10, 301, 100);
-        tailleEnvSlider = new JSlider(JSlider.VERTICAL,10, 301, 100);
-        cursorParamPanel.add(foodSlider);
-        cursorParamPanel.add(agentSlider);
-        cursorParamPanel.add(pathSlider);
-        cursorParamPanel.add(taillePatchSlider);
-        cursorParamPanel.add(sleepSlider);
-        cursorParamPanel.add(tailleEnvSlider);
+        foodSlider = addSlider("food count",1,101,2,1,10);
+        agentSlider = addSlider("agent count",1,101,2,1,10);
+        pathSlider = addSlider("path size",100,301,200,10,50);
+        sleepSlider = addSlider("sleep time",1,101,30,10,10);
+        taillePatchSlider = addSlider("food size",10,100,30,5,5);
+        tailleEnvSlider = addSlider("MAS size",100,1000,500,10,100);
         
         GUI = new JPanel();
         //GUI.setBorder(BorderFactory.createLineBorder(Color.red));
@@ -142,12 +131,37 @@ public class MASFrame extends JFrame implements ActionListener
         
         this.pack();
         this.setVisible(true);
+        updateGUI();
+        initMAS();
     }
     
     HashMap<String,Integer> radios;
     private void addRadio(String name,int algoId)
     {
         addRadio(name,algoId,false);
+    }
+    private JSlider addSlider(String name,int min,int max,int init,int minor,int major)
+    {
+        JSlider use = new JSlider(JSlider.VERTICAL,min, max, init);
+        use.setName(name);
+        use.setMajorTickSpacing(major);
+        use.setMinorTickSpacing(minor);
+        use.setPaintLabels(true);
+        use.setPaintTicks(true);
+        use.setSnapToTicks(true);
+        use.addChangeListener(new myChangeListener());
+        cursorParamPanel.add(use);
+        return use;
+    }
+    class myChangeListener implements ChangeListener
+    {
+        public myChangeListener() {
+        }
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            actionPerformed(null);
+        }
+
     }
     private void addRadio(String name,int algoId,boolean selected)
     {
@@ -159,6 +173,7 @@ public class MASFrame extends JFrame implements ActionListener
         algoRadioGroup.add(new_radio);
         absParamPanel.add(new_radio);     
         new_radio.setSelected(selected);
+        new_radio.addActionListener(this);
     }
     
     boolean allowDraw = false;
@@ -167,26 +182,48 @@ public class MASFrame extends JFrame implements ActionListener
         allowDraw = true;
         this.repaint();
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if(e.getSource() == initB)
+        boolean eNull = e==null;
+        if(!eNull && e.getSource() == initB)
         {
             initMAS();
         }
-        else if(e.getSource() == playPauseB)
+        else if(!eNull && e.getSource() == playPauseB)
         {
             if(system.play)
             {
-                playPauseB.setText("play");
                 system.pause();
             }
             else
             {
-                playPauseB.setText("pause");
                 system.play();
             }
+        }
+        else
+        {
+            initNeeded = true;
+        }
+        updateGUI();
+    }
+    
+    boolean initNeeded;
+    public void updateGUI()
+    {
+        playPauseB.setText(system.play?"pause":"play");
+        playPauseB.setEnabled(!initNeeded);
+        initB.setEnabled(!system.play && initNeeded);
+        setPanelEnable(absParamPanel,!system.play);
+        setPanelEnable(cursorParamPanel,!system.play);
+    }
+    
+    private void setPanelEnable(JPanel p, boolean b)
+    {
+        for(Component c : p.getComponents())
+        {
+            c.setEnabled(b);
         }
     }
     
@@ -196,7 +233,9 @@ public class MASFrame extends JFrame implements ActionListener
         simPar.usedAlgo = radios.get(algoRadioGroup.getSelection().getActionCommand());
         simPar.killAgent = killAgentBox.isSelected();
         simPar.nbFood = foodSlider.getValue();
+        simPar.foodSizeRandom = foodSizeBox.isSelected();
         system.init(simPar);
+        initNeeded = false;
     }
     
     class MASPanel extends JPanel

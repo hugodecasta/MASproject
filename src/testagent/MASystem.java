@@ -40,7 +40,7 @@ public class MASystem implements Drawable
         this.height = params.height;
         manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength);
         startTime = System.currentTimeMillis();
-        initManger(params.nbFood);
+        initManger(params.nbFood,params.foodSizeRandom,params.foodSize);
         this.speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
         pause();
@@ -61,22 +61,23 @@ public class MASystem implements Drawable
     {
         frame = new MASFrame(width,height,this);
     }
-    private void initManger(int nbMax)
+    private void initManger(int nbMax,boolean randomSize,int size)
     {
         manger = new ArrayList<>();
         //TODO
         // food aléa
         // food spot
-        int foodSize = 30;
+        int foodSize = size;
         for(int i=0;i<nbMax;++i)
         {
             int x = (int)(Math.random()*width);
             int y = (int)(Math.random()*height);
+            int randSize = (int)(Math.random()*foodSize);
             x = x >width-foodSize?width-foodSize:x;
             y = y >height-foodSize?height-foodSize:y;
             x = x < foodSize?foodSize:x;
             y = y < foodSize?foodSize:y;
-            manger.add(new Food(x,y,foodSize));
+            manger.add(new Food(x,y,randomSize?randSize:foodSize));
         }
     }
     
