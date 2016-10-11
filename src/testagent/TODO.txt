@@ -6,16 +6,22 @@
 *    - Taille panel = taille écran (et pas l'inverse)
      - regérer temps
 
-  Interface:
-    - démarrer la simuation / stopper la simulation
+ - Lire fichier arena
+ - Grille food generation
 
-    - selection du mode de déplacement (Radio ou Combo)
-    - case à cocher (mort de l'agent lors de la mangeaizon)
+  Interface:
+*   - démarrer la simuation / stopper la simulation
+
+*   - selection du mode de déplacement (Radio ou Combo)
+*   - case à cocher (mort de l'agent lors de la mangeaizon)
 
     - taille environnement
     - gérer le sleep (curseur)
-    - case à cocher (réduire le chemin) + curseur si oui (taille max du chemin)
+    - curseur si oui (taille max du chemin)
     - nombre d'entité (agent / food) -> curseur (min - max)
+    - taille des patchs
+
+    - Enable / Disable panels
 
   Amélioration:
     - principe spiral à mémoire

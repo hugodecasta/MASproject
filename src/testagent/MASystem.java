@@ -24,7 +24,8 @@ public class MASystem implements Drawable
     AgentManager manager;
     int speed;
     MASFrame frame;
-    long startTime,endTime;
+    long startTime,endTime,pauseTime,time;
+    boolean play;
     
     public MASystem(SimulationParameter params)
     {
@@ -42,6 +43,7 @@ public class MASystem implements Drawable
         initManger(params.nbFood);
         this.speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
+        pause();
     }
     
     public void play()
@@ -51,6 +53,7 @@ public class MASystem implements Drawable
     
     public void pause()
     {
+        pauseTime = System.currentTimeMillis();
         play = false;
     }
     
@@ -76,6 +79,8 @@ public class MASystem implements Drawable
             manger.add(new Food(x,y,foodSize));
         }
     }
+    
+    @Override
     public String toString()
     {
         String ret = "SYSTEM:";
@@ -86,7 +91,6 @@ public class MASystem implements Drawable
         ret += "\n"+manager;
         return ret;
     }
-    boolean play;
     public void run()
     {
         while(true)
@@ -111,7 +115,7 @@ public class MASystem implements Drawable
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
     {
-        if(remainingFood()>0)
+        if(remainingFood()>0 && play)
             manager.run();
         
         g.setColor(Color.GRAY);
@@ -129,9 +133,14 @@ public class MASystem implements Drawable
         g.setColor(Color.white);
         g.drawString("FOOD : "+remainingFood(), (int)((x*w)+15), (int)((y*w)+25));
         
-        if(remainingFood() > 0)
-            endTime = System.currentTimeMillis();
-        int second = (int)((endTime - startTime)/1000);
+        if(play && remainingFood() > 0)
+        {
+            time += speed;
+        }
+        /*if(remainingFood() > 0)
+            endTime = System.currentTimeMillis();*/
+        //int second = (int)((endTime - startTime)/1000);
+        int second = (int)(time/1000);
         String strTime = second+"s";
         if(second>60)
         {
