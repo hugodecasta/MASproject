@@ -94,6 +94,8 @@ public class MASFrame extends JFrame implements ActionListener
         
         killAgentBox = new JCheckBox("kill agent ?");
         foodSizeBox = new JCheckBox("random food size ?");
+        killAgentBox.addActionListener(this);
+        foodSizeBox.addActionListener(this);
         absParamPanel.add(killAgentBox);
         absParamPanel.add(foodSizeBox);
                 
@@ -151,8 +153,25 @@ public class MASFrame extends JFrame implements ActionListener
         use.setPaintTicks(true);
         use.setSnapToTicks(true);
         use.addChangeListener(new myChangeListener());
-        cursorParamPanel.add(new JLabel(name));
-        cursorParamPanel.add(use);
+        
+        JPanel p = new JPanel();
+        p.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLUE));
+        p.setLayout(new GridLayout(2,1));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.weighty = 0.2;
+        gbc.weightx = 1;
+        p.add(new JLabel(name),gbc);
+        gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.weighty = 0.8;
+        gbc.weightx = 1;
+        p.add(use,gbc);
+        
+        cursorParamPanel.add(p);
         return use;
     }
     class myChangeListener implements ChangeListener
