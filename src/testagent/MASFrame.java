@@ -31,6 +31,7 @@ import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
@@ -150,6 +151,7 @@ public class MASFrame extends JFrame implements ActionListener
         use.setPaintTicks(true);
         use.setSnapToTicks(true);
         use.addChangeListener(new myChangeListener());
+        cursorParamPanel.add(new JLabel(name));
         cursorParamPanel.add(use);
         return use;
     }
@@ -230,10 +232,20 @@ public class MASFrame extends JFrame implements ActionListener
     public void initMAS()
     {
         SimulationParameter simPar = new SimulationParameter();
+        
         simPar.usedAlgo = radios.get(algoRadioGroup.getSelection().getActionCommand());
+        
         simPar.killAgent = killAgentBox.isSelected();
-        simPar.nbFood = foodSlider.getValue();
         simPar.foodSizeRandom = foodSizeBox.isSelected();
+        
+        simPar.nbFood = foodSlider.getValue();
+        simPar.foodSize = taillePatchSlider.getValue();
+        simPar.nbAgents = agentSlider.getValue();
+        simPar.width = tailleEnvSlider.getValue();
+        simPar.height = tailleEnvSlider.getValue();
+        simPar.speed = sleepSlider.getValue();
+        simPar.pathMaxLength = pathSlider.getValue();
+        
         system.init(simPar);
         initNeeded = false;
     }

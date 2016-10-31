@@ -15,11 +15,11 @@
 *   - selection du mode de déplacement (Radio ou Combo)
 *   - case à cocher (mort de l'agent lors de la mangeaizon)
 
-    - taille environnement
-    - gérer le sleep (curseur)
-    - curseur si oui (taille max du chemin)
-    - nombre d'entité (agent / food) -> curseur (min - max)
-    - taille des patchs
+*   - taille environnement
+*   - gérer le sleep (curseur)
+*   - curseur si oui (taille max du chemin)
+*   - nombre d'entité (agent / food) -> curseur (min - max)
+*   - taille des patchs
 
     - Enable / Disable panels
 

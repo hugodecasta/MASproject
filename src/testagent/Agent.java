@@ -40,7 +40,7 @@ public class Agent implements Drawable
         this.chemin = new ArrayList<>();
         initColor();
         this.maxPathLength = maxPathLength;
-        usePathLength = maxPathLength>-1;
+        usePathLength = maxPathLength<301;
         if(usePathLength)
             initTailColor(maxPathLength);
         try
