@@ -24,7 +24,7 @@ public class MASystem implements Drawable
     AgentManager manager;
     int speed;
     MASFrame frame;
-    long startTime,endTime,pauseTime,time;
+    long startTime,endTime,timeAdder;
     boolean play;
     
     public MASystem(SimulationParameter params)
@@ -36,24 +36,28 @@ public class MASystem implements Drawable
     
     public void init(SimulationParameter params)
     {
+        startTime = 0;
+        endTime = 0;
+        timeAdder = 0;
         this.width = params.width;
         this.height = params.height;
         manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength);
-        startTime = System.currentTimeMillis();
         initManger(params.nbFood,params.foodSizeRandom,params.foodSize);
         this.speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
-        pause();
     }
     
     public void play()
     {
+        if(remainingFood()<=0)
+            return;
+        timeAdder += endTime-startTime;
+        startTime = System.currentTimeMillis();
         play = true;
     }
     
     public void pause()
     {
-        pauseTime = System.currentTimeMillis();
         play = false;
     }
     
@@ -136,12 +140,12 @@ public class MASystem implements Drawable
         
         if(play && remainingFood() > 0)
         {
-            time += speed;
+            endTime = System.currentTimeMillis();
         }
         /*if(remainingFood() > 0)
             endTime = System.currentTimeMillis();*/
         //int second = (int)((endTime - startTime)/1000);
-        int second = (int)(time/1000);
+        int second = (int)(((endTime-startTime)+timeAdder)/1000);
         String strTime = second+"s";
         if(second>60)
         {

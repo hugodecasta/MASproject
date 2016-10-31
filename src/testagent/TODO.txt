@@ -4,7 +4,7 @@
 
   Amélioration graphiques:
 *    - Taille panel = taille écran (et pas l'inverse)
-     - regérer temps
+*    - regérer temps
 
  - Lire fichier arena
  - Grille food generation
@@ -21,7 +21,7 @@
 *   - nombre d'entité (agent / food) -> curseur (min - max)
 *   - taille des patchs
 
-    - Enable / Disable panels
+*   - Enable / Disable panels
 
   Amélioration:
     - principe spiral à mémoire

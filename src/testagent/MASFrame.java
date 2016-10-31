@@ -103,7 +103,7 @@ public class MASFrame extends JFrame implements ActionListener
         cursorParamPanel.setLayout(new GridLayout(2,3));
         foodSlider = addSlider("food count",1,101,2,1,10);
         agentSlider = addSlider("agent count",1,101,2,1,10);
-        pathSlider = addSlider("path size",100,301,200,10,50);
+        pathSlider = addSlider("path size",100,310,200,10,50);
         sleepSlider = addSlider("sleep time",1,101,30,10,10);
         taillePatchSlider = addSlider("food size",10,100,30,5,5);
         tailleEnvSlider = addSlider("MAS size",100,1000,500,10,100);
@@ -155,20 +155,17 @@ public class MASFrame extends JFrame implements ActionListener
         use.addChangeListener(new myChangeListener());
         
         JPanel p = new JPanel();
-        p.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLUE));
-        p.setLayout(new GridLayout(2,1));
+        //p.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLUE));
+        p.setLayout(new GridBagLayout());
         
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.fill = GridBagConstraints.VERTICAL;
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weighty = 0.2;
-        gbc.weightx = 1;
         p.add(new JLabel(name),gbc);
         gbc.gridy = 1;
-        gbc.gridx = 0;
         gbc.weighty = 0.8;
-        gbc.weightx = 1;
         p.add(use,gbc);
         
         cursorParamPanel.add(p);
@@ -244,6 +241,8 @@ public class MASFrame extends JFrame implements ActionListener
     {
         for(Component c : p.getComponents())
         {
+            if(c.getClass()==JPanel.class)
+                setPanelEnable((JPanel)c, b);
             c.setEnabled(b);
         }
     }
@@ -265,6 +264,7 @@ public class MASFrame extends JFrame implements ActionListener
         simPar.speed = sleepSlider.getValue();
         simPar.pathMaxLength = pathSlider.getValue();
         
+        panel.setSize(simPar.width,simPar.height);
         system.init(simPar);
         initNeeded = false;
     }
@@ -281,6 +281,12 @@ public class MASFrame extends JFrame implements ActionListener
             this.height = height;
             //this.setPreferredSize(new Dimension(width, height));
             this.system = system;
+        }
+        
+        public void setSize(int width,int height)
+        {
+            this.width = width;
+            this.height = height;
         }
         
         @Override 
