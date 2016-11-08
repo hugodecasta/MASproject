@@ -27,3 +27,7 @@
     - principe spiral à mémoire
     - répartition de la food (par secteur)
    (- moving food)
+
+    - experiment laucnher dans MASFrame (vérifier l'udpateGUI)
+    - après experiement afficher le résult
+    - calculer les résultats de l'experiment (fitness, algo glouton, ...)
