@@ -6,8 +6,8 @@
 *    - Taille panel = taille écran (et pas l'inverse)
 *    - regérer temps
 
- - Lire fichier arena
- - Grille food generation
+  - Lire fichier arena
+~ - Grille food generation
 
   Interface:
 *   - démarrer la simuation / stopper la simulation
