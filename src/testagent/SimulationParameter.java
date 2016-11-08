@@ -19,7 +19,6 @@ public class SimulationParameter
     public int usedAlgo=1;
     public boolean foodSizeRandom=false;
     public int foodSize=30;
-    public boolean experience = false;
     
     public SimulationParameter()
     {

@@ -27,7 +27,6 @@ public class MASystem implements Drawable
     MASFrame frame;
     long startTime,endTime,timeAdder;
     boolean play;
-    boolean experience;
     
     public MASystem(SimulationParameter params)
     {
@@ -41,7 +40,6 @@ public class MASystem implements Drawable
         startTime = 0;
         endTime = 0;
         timeAdder = 0;
-        experience = params.experience;
         this.width = params.width;
         this.height = params.height;
         manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength);
@@ -56,8 +54,8 @@ public class MASystem implements Drawable
         // 0: nbFood
         // 1: nbAgent
         
-        int min, max;
-        int step;
+        int min=0, max=0;
+        int step=1;
         switch(params.testinParameterId)
         {
             case 0:
@@ -66,6 +64,25 @@ public class MASystem implements Drawable
             case 1:
                 min = 1; max = 100; step = 10;
                 break;
+        }
+        SimulationParameter simul = params.sim;
+        for(int i=min;i<=max;i+=step)
+        {
+            switch(params.testinParameterId)
+            {
+                case 0:
+                    simul.nbFood = i;
+                    break;
+                case 1:
+                    simul.nbAgents = i;
+                    break;
+            }
+            init(simul);
+            boolean foodRemain = true;
+            while(foodRemain)
+            {
+                foodRemain = updateOnly();
+            }
         }
     }
     
@@ -123,32 +140,24 @@ public class MASystem implements Drawable
     {
         while(true)
         {
-            if(experience && play)
+            frame.draw();
+            try
             {
-                updateOnly();
+                Thread.sleep(speed);
             }
-            else
+            catch(Exception e)
             {
-                frame.draw();
-                try
-                {
-                    Thread.sleep(speed);
-                }
-                catch(Exception e)
-                {
-                    System.err.println(e.getMessage());
-                }
+                System.err.println(e.getMessage());
             }
+            
         }
     }
     Color info = new Color(0,0,0,100);
     
-    public void updateOnly()
+    public boolean updateOnly()
     {
-        if(remainingFood()>0 && play)
             manager.run();
-        else if(play)
-            pause();
+            return remainingFood()>0;
     }
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
@@ -157,9 +166,6 @@ public class MASystem implements Drawable
             manager.run();
         else if(play)
             pause();
-        
-        if((experience && play) || g==null)
-            return;
         
         g.setColor(Color.GRAY);
         g.fillRect((int)(x*w), (int)(y*h), (int)(width*w), (int)(height*h));

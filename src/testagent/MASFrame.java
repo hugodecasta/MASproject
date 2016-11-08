@@ -47,10 +47,10 @@ public class MASFrame extends JFrame implements ActionListener
 {
     MASPanel panel;
     JPanel GUI,algoPanel,optionPanel,cursorParamPanel;
-    JButton initB,playPauseB;
+    JButton initB,playPauseB,experimentB;
     MASystem system;
     ButtonGroup algoRadioGroup;
-    JCheckBox killAgentBox,foodSizeBox,experienceBox;
+    JCheckBox killAgentBox,foodSizeBox;
     JSlider foodSlider,agentSlider,tailleEnvSlider,sleepSlider,pathSlider,taillePatchSlider;
     
     public MASFrame(int width,int height, MASystem system)
@@ -69,7 +69,6 @@ public class MASFrame extends JFrame implements ActionListener
         this.setResizable(false);
         this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         
-        System.out.println(tHeight);
         panel = new MASPanel(width,height,system);
         panel.setPreferredSize(new Dimension((int)tHeight,(int)tHeight));
         
@@ -83,6 +82,11 @@ public class MASFrame extends JFrame implements ActionListener
         initPanel.add(initB);
         initPanel.add(playPauseB);
         
+        JPanel experimentPanel = new JPanel();
+        experimentB = new JButton("EXPERIMENT");
+        experimentB.addActionListener(this);
+        experimentPanel.add(experimentB);
+        
         algoPanel = new JPanel();
         algoPanel.setLayout(new GridLayout(3,2));
         //absParamPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -95,15 +99,8 @@ public class MASFrame extends JFrame implements ActionListener
         
         optionPanel = new JPanel();
         optionPanel.setLayout(new GridLayout(2,2));
-        /*killAgentBox = new JCheckBox("kill agent ?");
-        foodSizeBox = new JCheckBox("random food size ?");
-        killAgentBox.addActionListener(this);
-        foodSizeBox.addActionListener(this);
-        optionPanel.add(killAgentBox);
-        optionPanel.add(foodSizeBox);*/
         killAgentBox = addOption("Kill agent ?");
         foodSizeBox= addOption("random food size ?");
-        experienceBox= addOption("experience ?");
                 
         cursorParamPanel = new JPanel();
         cursorParamPanel.setLayout(new GridLayout(2,3));
@@ -123,16 +120,19 @@ public class MASFrame extends JFrame implements ActionListener
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx= 0 ;
         c.gridy = 0;
-        c.weighty = 1;
+        c.weighty = 1/8;
         c.weightx = 1;
         GUI.add(initPanel,c);
         c.gridy = 1;
-        GUI.add(algoPanel,c);
+        GUI.add(experimentPanel,c);
         c.gridy = 2;
+        GUI.add(algoPanel,c);
+        c.gridy = 3;
         GUI.add(optionPanel,c);
+        c.weighty = 1/2;
         c.ipady = (int)(tHeight/1.5);
         c.weighty = 10;
-        c.gridy = 3;
+        c.gridy = 4;
         GUI.add(cursorParamPanel,c);
         
         c = new GridBagConstraints();
@@ -264,13 +264,14 @@ public class MASFrame extends JFrame implements ActionListener
     }
     public void launchExperiment()
     {
+        setPanelEnable(GUI,false);
         SimulationParameter simPar = createSimParam();
         ExperimentParameter expPar = new ExperimentParameter();
         expPar.sim = simPar;
         
         panel.setSize(simPar.width,simPar.height);
         system.experiement(expPar);
-        
+        updateGUI();
     }
     SimulationParameter createSimParam()
     {
@@ -279,8 +280,7 @@ public class MASFrame extends JFrame implements ActionListener
         simPar.usedAlgo = radios.get(algoRadioGroup.getSelection().getActionCommand());
         
         simPar.killAgent = killAgentBox.isSelected();
-        simPar.foodSizeRandom = foodSizeBox.isSelected();        
-        simPar.experience = experienceBox.isSelected();
+        simPar.foodSizeRandom = foodSizeBox.isSelected();
         
         simPar.nbFood = foodSlider.getValue();
         simPar.foodSize = taillePatchSlider.getValue();
