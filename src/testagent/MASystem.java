@@ -27,6 +27,7 @@ public class MASystem implements Drawable
     MASFrame frame;
     long startTime,endTime,timeAdder;
     boolean play;
+    boolean experience;
     
     public MASystem(SimulationParameter params)
     {
@@ -40,6 +41,7 @@ public class MASystem implements Drawable
         startTime = 0;
         endTime = 0;
         timeAdder = 0;
+        experience = params.experience;
         this.width = params.width;
         this.height = params.height;
         manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength);
@@ -47,6 +49,24 @@ public class MASystem implements Drawable
         initManger(params.nbFood,params.foodSizeRandom,params.foodSize);
         this.speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
+    }
+    
+    public void experiement(ExperimentParameter params)
+    {
+        // 0: nbFood
+        // 1: nbAgent
+        
+        int min, max;
+        int step;
+        switch(params.testinParameterId)
+        {
+            case 0:
+                min = 1; max = 100; step = 10;
+                break;
+            case 1:
+                min = 1; max = 100; step = 10;
+                break;
+        }
     }
     
     public void play()
@@ -61,6 +81,7 @@ public class MASystem implements Drawable
     public void pause()
     {
         play = false;
+        frame.updateGUI();
     }
     
     private void initFrame()
@@ -102,28 +123,43 @@ public class MASystem implements Drawable
     {
         while(true)
         {
-            frame.draw();
-            try
+            if(experience && play)
             {
-                Thread.sleep(speed);
+                updateOnly();
             }
-            catch(Exception e)
+            else
             {
-                System.err.println(e.getMessage());
+                frame.draw();
+                try
+                {
+                    Thread.sleep(speed);
+                }
+                catch(Exception e)
+                {
+                    System.err.println(e.getMessage());
+                }
             }
-            //System.out.println(this);
         }
     }
     Color info = new Color(0,0,0,100);
     
-    public void loop()
-    {       
-    }
-    @Override
-    public void draw(int x, int y, double w, double h, Graphics g)
+    public void updateOnly()
     {
         if(remainingFood()>0 && play)
             manager.run();
+        else if(play)
+            pause();
+    }
+    @Override
+    public void draw(int x, int y, double w, double h, Graphics g)
+    {        
+        if(remainingFood()>0 && play)
+            manager.run();
+        else if(play)
+            pause();
+        
+        if((experience && play) || g==null)
+            return;
         
         g.setColor(Color.GRAY);
         g.fillRect((int)(x*w), (int)(y*h), (int)(width*w), (int)(height*h));

@@ -59,6 +59,7 @@ public class AgentManager implements Drawable
         {
             //agents.remove(a);
             a.eatten = true;
+            a.nbEaten += 1;
         }
     }
     

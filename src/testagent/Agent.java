@@ -27,6 +27,8 @@ public class Agent implements Drawable
     Image image;
     int maxPathLength;
     boolean usePathLength;
+    int distParcourue;
+    public int nbEaten;
     //------------------------ pasBioInspi
     public int directionY = Math.random()<.5?-10:10;
     public int directionX = Math.random()<.5?-30:30;
@@ -37,6 +39,8 @@ public class Agent implements Drawable
         this.x = x;
         this.y = y;
         this.angle = 90;
+        this.distParcourue = 0;
+        this.nbEaten = 0;
         this.chemin = new ArrayList<>();
         initColor();
         this.maxPathLength = maxPathLength;
@@ -71,6 +75,9 @@ public class Agent implements Drawable
         if(usePathLength && chemin.size()==maxPathLength)
             chemin.remove(0);
         
+        int xOld = x;
+        int yOld = y;
+        
         x += xMove;
         y += yMove;
         
@@ -95,6 +102,10 @@ public class Agent implements Drawable
             bumped = 0;
             y = rebond;
         }
+        
+        double dist = Math.sqrt(Math.pow(x-xOld,2)+Math.pow(y-yOld,2));
+        this.distParcourue += dist;
+        
         chemin.add(new Point(x,y));
         return bumped;
     }
@@ -131,8 +142,11 @@ public class Agent implements Drawable
         int size = 10;
         int dsize = (int)(size*w)*2;
         //g.fillOval((int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)), (int)(w*size), (int)(w*size));
-        
+                
         g.drawImage(image, (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)),dsize,dsize,null); 
+        g.setColor(Color.WHITE);
+        g.drawString(distParcourue+" px", (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)));
+        g.drawString(""+nbEaten, (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y+size*2)));
     }
     
     Color[]meinColors;

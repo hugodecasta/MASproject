@@ -50,7 +50,7 @@ public class MASFrame extends JFrame implements ActionListener
     JButton initB,playPauseB;
     MASystem system;
     ButtonGroup algoRadioGroup;
-    JCheckBox killAgentBox,foodSizeBox;
+    JCheckBox killAgentBox,foodSizeBox,experienceBox;
     JSlider foodSlider,agentSlider,tailleEnvSlider,sleepSlider,pathSlider,taillePatchSlider;
     
     public MASFrame(int width,int height, MASystem system)
@@ -94,13 +94,16 @@ public class MASFrame extends JFrame implements ActionListener
         addRadio("spiral", 4);
         
         optionPanel = new JPanel();
-        optionPanel.setLayout(new GridLayout(1,2));
-        killAgentBox = new JCheckBox("kill agent ?");
+        optionPanel.setLayout(new GridLayout(2,2));
+        /*killAgentBox = new JCheckBox("kill agent ?");
         foodSizeBox = new JCheckBox("random food size ?");
         killAgentBox.addActionListener(this);
         foodSizeBox.addActionListener(this);
         optionPanel.add(killAgentBox);
-        optionPanel.add(foodSizeBox);
+        optionPanel.add(foodSizeBox);*/
+        killAgentBox = addOption("Kill agent ?");
+        foodSizeBox= addOption("random food size ?");
+        experienceBox= addOption("experience ?");
                 
         cursorParamPanel = new JPanel();
         cursorParamPanel.setLayout(new GridLayout(2,3));
@@ -186,6 +189,13 @@ public class MASFrame extends JFrame implements ActionListener
         }
 
     }
+    private JCheckBox addOption(String name)
+    {
+        JCheckBox modif = new JCheckBox(name);
+        modif.addActionListener(this);
+        optionPanel.add(modif);
+        return modif;
+    }
     private void addRadio(String name,int algoId,boolean selected)
     {
         if(radios==null)
@@ -252,15 +262,25 @@ public class MASFrame extends JFrame implements ActionListener
             c.setEnabled(b);
         }
     }
-    
-    public void initMAS()
+    public void launchExperiment()
+    {
+        SimulationParameter simPar = createSimParam();
+        ExperimentParameter expPar = new ExperimentParameter();
+        expPar.sim = simPar;
+        
+        panel.setSize(simPar.width,simPar.height);
+        system.experiement(expPar);
+        
+    }
+    SimulationParameter createSimParam()
     {
         SimulationParameter simPar = new SimulationParameter();
         
         simPar.usedAlgo = radios.get(algoRadioGroup.getSelection().getActionCommand());
         
         simPar.killAgent = killAgentBox.isSelected();
-        simPar.foodSizeRandom = foodSizeBox.isSelected();
+        simPar.foodSizeRandom = foodSizeBox.isSelected();        
+        simPar.experience = experienceBox.isSelected();
         
         simPar.nbFood = foodSlider.getValue();
         simPar.foodSize = taillePatchSlider.getValue();
@@ -269,7 +289,11 @@ public class MASFrame extends JFrame implements ActionListener
         simPar.height = tailleEnvSlider.getValue();
         simPar.speed = sleepSlider.getValue();
         simPar.pathMaxLength = pathSlider.getValue();
-        
+        return simPar;
+    }
+    public void initMAS()
+    {
+        SimulationParameter simPar = createSimParam();
         panel.setSize(simPar.width,simPar.height);
         system.init(simPar);
         initNeeded = false;

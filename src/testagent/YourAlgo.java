@@ -95,7 +95,6 @@ public class YourAlgo
         agent.move((int)(randXMove*pas),(int)(randYMove*pas));
     }
     
-    // Amélioration
     public static void spiral(Agent agent)
     {
         
