@@ -27,6 +27,8 @@ public class YourAlgo
                 leviCrade(agent);break;
             case 3:
                 pasBioInspire(agent);break;
+            case 4:
+                spiral(agent);break;
             default:
                 randTen(agent);break;
                 
@@ -91,5 +93,11 @@ public class YourAlgo
         double randYMove = random.nextDouble()*2-1;
         
         agent.move((int)(randXMove*pas),(int)(randYMove*pas));
+    }
+    
+    // Amélioration
+    public static void spiral(Agent agent)
+    {
+        
     }
 }

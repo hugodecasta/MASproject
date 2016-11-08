@@ -46,7 +46,7 @@ import javax.swing.event.ChangeListener;
 public class MASFrame extends JFrame implements ActionListener
 {
     MASPanel panel;
-    JPanel GUI,absParamPanel,cursorParamPanel;
+    JPanel GUI,algoPanel,optionPanel,cursorParamPanel;
     JButton initB,playPauseB;
     MASystem system;
     ButtonGroup algoRadioGroup;
@@ -83,21 +83,24 @@ public class MASFrame extends JFrame implements ActionListener
         initPanel.add(initB);
         initPanel.add(playPauseB);
         
-        absParamPanel = new JPanel();
-        absParamPanel.setLayout(new GridLayout(3,2));
+        algoPanel = new JPanel();
+        algoPanel.setLayout(new GridLayout(3,2));
         //absParamPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         algoRadioGroup = new ButtonGroup();
         addRadio("random", -1,true);
         addRadio("Levy", 1);
         addRadio("Levy simulation", 2);
         addRadio("robot", 3);
+        addRadio("spiral", 4);
         
+        optionPanel = new JPanel();
+        optionPanel.setLayout(new GridLayout(1,2));
         killAgentBox = new JCheckBox("kill agent ?");
         foodSizeBox = new JCheckBox("random food size ?");
         killAgentBox.addActionListener(this);
         foodSizeBox.addActionListener(this);
-        absParamPanel.add(killAgentBox);
-        absParamPanel.add(foodSizeBox);
+        optionPanel.add(killAgentBox);
+        optionPanel.add(foodSizeBox);
                 
         cursorParamPanel = new JPanel();
         cursorParamPanel.setLayout(new GridLayout(2,3));
@@ -121,10 +124,12 @@ public class MASFrame extends JFrame implements ActionListener
         c.weightx = 1;
         GUI.add(initPanel,c);
         c.gridy = 1;
-        GUI.add(absParamPanel,c);
+        GUI.add(algoPanel,c);
+        c.gridy = 2;
+        GUI.add(optionPanel,c);
         c.ipady = (int)(tHeight/1.5);
         c.weighty = 10;
-        c.gridy = 2;
+        c.gridy = 3;
         GUI.add(cursorParamPanel,c);
         
         c = new GridBagConstraints();
@@ -189,7 +194,7 @@ public class MASFrame extends JFrame implements ActionListener
         JRadioButton new_radio = new JRadioButton(name);
         new_radio.setActionCommand(name);
         algoRadioGroup.add(new_radio);
-        absParamPanel.add(new_radio);     
+        algoPanel.add(new_radio);     
         new_radio.setSelected(selected);
         new_radio.addActionListener(this);
     }
@@ -233,7 +238,8 @@ public class MASFrame extends JFrame implements ActionListener
         playPauseB.setText(system.play?"pause":"play");
         playPauseB.setEnabled(!initNeeded);
         initB.setEnabled(!system.play && initNeeded);
-        setPanelEnable(absParamPanel,!system.play);
+        setPanelEnable(algoPanel,!system.play);
+        setPanelEnable(optionPanel,!system.play);
         setPanelEnable(cursorParamPanel,!system.play);
     }
     

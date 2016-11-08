@@ -20,6 +20,7 @@ public class MASystem implements Drawable
     //TODO
     // Lire fichier arena
     public static ArrayList<Food> manger;
+    int beginFoodCount;
     public static int width, height;
     AgentManager manager;
     int speed;
@@ -42,6 +43,7 @@ public class MASystem implements Drawable
         this.width = params.width;
         this.height = params.height;
         manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength);
+        beginFoodCount = params.nbFood;
         initManger(params.nbFood,params.foodSizeRandom,params.foodSize);
         this.speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
@@ -136,7 +138,7 @@ public class MASystem implements Drawable
         g.setColor(info);
         g.fillRect((int)(x*w),(int)(y*w),100,50);
         g.setColor(Color.white);
-        g.drawString("FOOD : "+remainingFood(), (int)((x*w)+15), (int)((y*w)+25));
+        g.drawString("FOOD : "+remainingFood()+" / "+beginFoodCount, (int)((x*w)+15), (int)((y*w)+25));
         
         if(play && remainingFood() > 0)
         {
