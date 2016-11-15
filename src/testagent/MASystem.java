@@ -7,9 +7,15 @@ package testagent;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -51,6 +57,7 @@ public class MASystem implements Drawable
     public void experiement(ExperimentParameter params)
     {
         forceStopPlaying = true;
+        frame.setPanelEnable(frame.GUI,false);
         // 0: nbFood
         // 1: nbAgent
         
@@ -59,10 +66,10 @@ public class MASystem implements Drawable
         switch(params.testinParameterId)
         {
             case 0:
-                min = 1; max = 100; step = 10;
+                min = 1; max = 100; step = 1;
                 break;
             case 1:
-                min = 1; max = 100; step = 10;
+                min = 1; max = 100; step = 1;
                 break;
         }
         SimulationParameter simul = params.sim;
@@ -87,9 +94,9 @@ public class MASystem implements Drawable
             {
                 foodRemain = updateOnly();
             }
-            //frame.draw();
+            frame.draw();
         }
-        frame.launchSystem();
+        frame.setPanelEnable(frame.GUI,true);
     }
     
     public void play()
@@ -114,6 +121,16 @@ public class MASystem implements Drawable
     
     private void initManger(int nbMax,boolean randomSize,int size)
     {
+        Image food = null;
+        Image eatted = null;        
+        try
+        {
+            food = ImageIO.read(new File("src/testagent/food.png"));
+            eatted = ImageIO.read(new File("src/testagent/eatted.png"));
+        }catch(Exception e)
+        {
+            System.err.append(e.getMessage());
+        }
         manger = new ArrayList<>();
         //TODO
         // food aléa
@@ -128,7 +145,9 @@ public class MASystem implements Drawable
             y = y >height-foodSize?height-foodSize:y;
             x = x < foodSize?foodSize:x;
             y = y < foodSize?foodSize:y;
-            manger.add(new Food(x,y,randomSize?randSize:foodSize));
+            Food nf = new Food(x,y,randomSize?randSize:foodSize);
+            nf.setImages(food, eatted);
+            manger.add(nf);
         }
     }
     

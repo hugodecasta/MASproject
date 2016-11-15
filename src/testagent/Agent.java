@@ -47,13 +47,12 @@ public class Agent implements Drawable
         usePathLength = maxPathLength<301;
         if(usePathLength)
             initTailColor(maxPathLength);
-        try
-        {
-            image = ImageIO.read(new File("src/testagent/eatter.png"));
-        }catch(Exception e)
-        {
-            System.err.append(e.getMessage());
-        }
+        
+    }
+    
+    public void setImage(Image image)
+    {
+        this.image = image;
     }
     
     private void initColor()
@@ -143,7 +142,7 @@ public class Agent implements Drawable
         int dsize = (int)(size*w)*2;
         //g.fillOval((int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)), (int)(w*size), (int)(w*size));
                 
-        g.drawImage(image, (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)),dsize,dsize,null); 
+        g.drawImage(image, (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)),dsize,dsize,null);
         g.setColor(Color.WHITE);
         g.drawString(distParcourue+" px", (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)));
         g.drawString(""+nbEaten, (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y+size*2)));

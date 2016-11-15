@@ -30,14 +30,12 @@ public class Food implements Drawable
         this.y = y;
         this.size = size;
         this.pick = false;
-        try
-        {
-            food = ImageIO.read(new File("src/testagent/food.png"));
-            eatted = ImageIO.read(new File("src/testagent/eatted.png"));
-        }catch(Exception e)
-        {
-            System.err.append(e.getMessage());
-        }
+    }
+    
+    public void setImages(Image food, Image eatted)
+    {
+        this.food = food;
+        this.eatted = eatted;
     }
     
     public void pick()

@@ -6,7 +6,13 @@
 package testagent;
 
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -27,12 +33,20 @@ public class AgentManager implements Drawable
     
     private void initAgents(int maxPathLength)
     {
+        Image image = null;
+        try {
+            image = ImageIO.read(new File("src/testagent/eatter.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(AgentManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
         agents = new ArrayList<>();
         for(int i=0;i<agentNumber;++i)
         {
             int x = (int)(Math.random()*MASystem.width);
             int y = (int)(Math.random()*MASystem.height);
-            agents.add(new Agent(x,y,maxPathLength));
+            Agent na = new Agent(x,y,maxPathLength);
+            na.setImage(image);
+            agents.add(na);
         }
     }
     

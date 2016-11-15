@@ -239,13 +239,7 @@ public class MASFrame extends JFrame implements ActionListener
         }
         else if(!eNull && e.getSource() == experimentB)
         {
-            SimulationParameter sim = createSimParam();
-            ExperimentParameter exp = new ExperimentParameter();
-            exp.sim = sim;
-            exp.testinParameterId = 1;
-            
-            ExperimentThread thread = new ExperimentThread(system,exp);
-            thread.start();
+            launchExperiment();
         }
         else
         {
@@ -270,7 +264,7 @@ public class MASFrame extends JFrame implements ActionListener
         setPanelEnable(cursorParamPanel,!system.play);
     }
     
-    private void setPanelEnable(JPanel p, boolean b)
+    public void setPanelEnable(JPanel p, boolean b)
     {
         for(Component c : p.getComponents())
         {
@@ -281,15 +275,25 @@ public class MASFrame extends JFrame implements ActionListener
     }
     public void launchExperiment()
     {
-        setPanelEnable(GUI,false);
-        SimulationParameter simPar = createSimParam();
-        ExperimentParameter expPar = new ExperimentParameter();
-        expPar.sim = simPar;
-        
-        panel.setSize(simPar.width,simPar.height);
-        system.experiement(expPar);
-        updateGUI();
+        SimulationParameter sim = createSimParam();
+        ExperimentParameter exp = new ExperimentParameter();
+        exp.sim = sim;
+        exp.testinParameterId = 1;
+
+        ExperimentThread thread = new ExperimentThread(system,exp);
+        thread.start();
+        System.out.println("je fonctionne en ||");
     }
+    public void experimentEnded()
+    {
+    }
+    
+    @Override
+    public void paint(Graphics gr)
+    {
+        super.paint(gr);
+    }
+    
     SimulationParameter createSimParam()
     {
         SimulationParameter simPar = new SimulationParameter();
@@ -314,12 +318,6 @@ public class MASFrame extends JFrame implements ActionListener
         panel.setSize(simPar.width,simPar.height);
         system.init(simPar);
         initNeeded = false;
-    }
-    @Override 
-    public void paint(Graphics gr)
-    {
-        if(allowDraw)
-            super.paint(gr);
     }
     
     class MASPanel extends JPanel
