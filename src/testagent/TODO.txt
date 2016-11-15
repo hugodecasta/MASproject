@@ -31,3 +31,4 @@
     - experiment laucnher dans MASFrame (vérifier l'udpateGUI)
     - après experiement afficher le résult
     - calculer les résultats de l'experiment (fitness, algo glouton, ...)
+    - rapport d'expérience

@@ -18,7 +18,8 @@ public class TestAgent {
      */
     public static void main(String[] args)
     {
-        MASystem univers = new MASystem(new SimulationParameter());
+        MASystem agentSystem = new MASystem(new SimulationParameter());
+        MASFrame frame = new MASFrame(10, 10, agentSystem);
     }
     
 }

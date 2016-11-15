@@ -57,6 +57,7 @@ public class MASFrame extends JFrame implements ActionListener
     {
         super("MAS test 1");
         this.system = system;
+        this.system.setFrame(this);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double sWidth = screenSize.getWidth();
         double sHeight = screenSize.getHeight();
@@ -144,6 +145,7 @@ public class MASFrame extends JFrame implements ActionListener
         this.setVisible(true);
         updateGUI();
         initMAS();
+        launchSystem();
     }
     
     HashMap<String,Integer> radios;
@@ -235,11 +237,26 @@ public class MASFrame extends JFrame implements ActionListener
                 system.play();
             }
         }
+        else if(!eNull && e.getSource() == experimentB)
+        {
+            SimulationParameter sim = createSimParam();
+            ExperimentParameter exp = new ExperimentParameter();
+            exp.sim = sim;
+            exp.testinParameterId = 1;
+            
+            ExperimentThread thread = new ExperimentThread(system,exp);
+            thread.start();
+        }
         else
         {
             initNeeded = true;
         }
         updateGUI();
+    }
+    
+    public void launchSystem()
+    {
+        system.run();
     }
     
     boolean initNeeded;
@@ -297,6 +314,12 @@ public class MASFrame extends JFrame implements ActionListener
         panel.setSize(simPar.width,simPar.height);
         system.init(simPar);
         initNeeded = false;
+    }
+    @Override 
+    public void paint(Graphics gr)
+    {
+        if(allowDraw)
+            super.paint(gr);
     }
     
     class MASPanel extends JPanel
