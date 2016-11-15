@@ -87,7 +87,7 @@ public class MASystem implements Drawable
             {
                 foodRemain = updateOnly();
             }
-            frame.draw();
+            //frame.draw();
         }
         frame.launchSystem();
     }
