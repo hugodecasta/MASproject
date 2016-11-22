@@ -70,13 +70,13 @@ public class MASystem implements Drawable
         switch(params.testinParameterId)
         {
             case 0:
-                min = 1; max = 100; step = 1; nbUnit = 1;
+                min = 1; max = 100; step = 1; nbUnit = 10;
                 break;
             case 1:
-                min = 1; max = 100; step = 1; nbUnit = 1;
+                min = 1; max = 100; step = 1; nbUnit = 10;
                 break;
             case 2:
-                min = 1; max = 20; step = 1; nbUnit = 1;
+                min = 1; max = 20; step = 1; nbUnit = 10;
                 break;
         }
         SimulationParameter simul = params.sim;
@@ -103,6 +103,7 @@ public class MASystem implements Drawable
                     testingValue = simul.alpha;
                     break;
             }
+            int iterMoyenne = 0;
             for(int j=0;j<nbUnit;j++)
             {
                 init(simul);
@@ -111,9 +112,10 @@ public class MASystem implements Drawable
                 {
                     foodRemain = updateOnly();
                 }
-                results.addResult(manager.nbIteration, testingValue);
+                iterMoyenne += manager.nbIteration;
                 frame.draw();
             }
+            results.addResult(iterMoyenne/nbUnit, testingValue);
         }
         results.saveExperimentResult("results.csv");
         System.out.println(results);

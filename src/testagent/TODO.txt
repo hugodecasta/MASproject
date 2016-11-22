@@ -32,3 +32,11 @@
     - après experiement afficher le résult
     - calculer les résultats de l'experiment (fitness, algo glouton, ...)
     - rapport d'expérience
+
+------------------------------------------------------------------------------------------------------------
+NOTES
+------------------------------------------------------------------------------------------------------------
+
+Lors de l'experimentation visant à determiner le nombre de patch optimal pour 2 agents, les résultats ont été différents des prévisions:
+Nous pensions obtenir une courbe exponentielle (justifier)
+Le résultat semble plutôt correspondre à une courbe logarithmique (justifier)
