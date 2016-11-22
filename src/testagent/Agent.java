@@ -28,7 +28,6 @@ public class Agent implements Drawable
     int maxPathLength;
     boolean usePathLength;
     int distParcourue;
-    int iterationsParcourues;
     public int nbEaten;
     //------------------------ pasBioInspi
     public int directionY = Math.random()<.5?-10:10;
@@ -42,7 +41,6 @@ public class Agent implements Drawable
         this.angle = 90;
         this.distParcourue = 0;
         this.nbEaten = 0;
-        this.iterationsParcourues = 0;
         this.chemin = new ArrayList<>();
         initColor();
         this.maxPathLength = maxPathLength;
@@ -108,7 +106,6 @@ public class Agent implements Drawable
         this.distParcourue += dist;
         
         chemin.add(new Point(x,y));
-        iterationsParcourues++;
         
         return bumped;
     }
@@ -153,8 +150,6 @@ public class Agent implements Drawable
         g.drawString(distParcourue+" px", (int)(w*(x+pDist.x)), (int)(w*(y+pDist.y)));
         Point pEaten = new Point(this.x-size/2, this.y+size/2);
         g.drawString(""+nbEaten, (int)(w*(x+pEaten.x)), (int)(w*(y+pEaten.y)));
-        Point pIter = new Point(this.x+size, this.y+size/2);
-        g.drawString(""+iterationsParcourues, (int)(w*(x+pIter.x)), (int)(w*(y+pIter.y)));
     }
     
     Color[]meinColors;

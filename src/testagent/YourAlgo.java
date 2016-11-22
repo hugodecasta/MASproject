@@ -15,6 +15,7 @@ public class YourAlgo
 {
     static Random random;
     static int algoUsed;
+    static float lAlpha;
     public static void find(Agent agent)
     {
         if(random==null)
@@ -31,12 +32,16 @@ public class YourAlgo
                 spiral(agent);break;
             default:
                 randTen(agent);break;
-                
         }
     }
     public static void setAlgoUsed(int algo)
     {
         algoUsed = algo;
+    }
+    //-------------------------------------------
+    public static void setLevyAlpha(float alpha)
+    {
+        lAlpha = alpha;
     }
     //-------------------------------------------
     // Algo de deplacement 100% aleatoire
@@ -75,7 +80,7 @@ public class YourAlgo
     // Levy fonctionnel
     public static void levy(Agent agent)
     {
-        double alpha = 1;
+        double alpha = lAlpha;
         double a = random.nextGaussian();
         double b = random.nextGaussian();
         

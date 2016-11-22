@@ -52,10 +52,12 @@ public class MASystem implements Drawable
         initManger(params.nbFood,params.foodSizeRandom,params.foodSize);
         this.speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
+        YourAlgo.setLevyAlpha(params.alpha);
     }
     
     public void experiement(ExperimentParameter params)
-    {        
+    {
+        ExperimentResults results = new ExperimentResults(params);
         experimentIsDone = false;
         forceStopPlaying = true;
         frame.setPanelEnable(frame.GUI,false);
@@ -68,15 +70,19 @@ public class MASystem implements Drawable
         switch(params.testinParameterId)
         {
             case 0:
-                min = 1; max = 100; step = 1; nbUnit = 10;
+                min = 1; max = 100; step = 1; nbUnit = 1;
                 break;
             case 1:
-                min = 1; max = 100; step = 1; nbUnit = 10;
+                min = 1; max = 100; step = 1; nbUnit = 1;
+                break;
+            case 2:
+                min = 1; max = 20; step = 1; nbUnit = 1;
                 break;
         }
         SimulationParameter simul = params.sim;
         System.out.println("Running experiment: "+min+" -> "+max+" by "+step+" (using "+nbUnit+" test unit(s))");
         
+        float testingValue = 0;
         for(int i=min;i<=max;i+=step)
         {
             frame.allowDraw = false;
@@ -84,10 +90,17 @@ public class MASystem implements Drawable
             {
                 case 0:
                     simul.nbFood = i;
+                    testingValue = simul.nbFood;
+                    frame.foodSlider.setValue(i);
                     break;
                 case 1:
                     simul.nbAgents = i;
+                    testingValue = simul.nbAgents;
                     frame.agentSlider.setValue(i);
+                    break;
+                case 2:
+                    simul.alpha = (float)i/10f;
+                    testingValue = simul.alpha;
                     break;
             }
             for(int j=0;j<nbUnit;j++)
@@ -98,9 +111,12 @@ public class MASystem implements Drawable
                 {
                     foodRemain = updateOnly();
                 }
+                results.addResult(manager.nbIteration, testingValue);
                 frame.draw();
             }
         }
+        results.saveExperimentResult("results.csv");
+        System.out.println(results);
         frame.setPanelEnable(frame.GUI,true);
         experimentIsDone = true;
         frame.launchSystem();
@@ -219,7 +235,7 @@ public class MASystem implements Drawable
         manager.draw(x,y,w,h,g);
         
         g.setColor(info);
-        g.fillRect((int)(x*w),(int)(y*w),100,50);
+        g.fillRect((int)(x*w),(int)(y*w),100,100);
         g.setColor(Color.white);
         g.drawString("FOOD : "+remainingFood()+" / "+beginFoodCount, (int)((x*w)+15), (int)((y*w)+25));
         
@@ -237,6 +253,8 @@ public class MASystem implements Drawable
             strTime = (int)(Math.floor(second/60))+"m"+second%60+"s";
         }
         g.drawString("TIME : "+strTime, (int)((x*w)+15), (int)((y*w)+45));
+        g.drawString("ITER : "+manager.nbIteration, (int)((x*w)+15), (int)((y*w)+65));
+        g.drawString("ALPHA : "+YourAlgo.lAlpha, (int)((x*w)+15), (int)((y*w)+85));
     }
     
     public int remainingFood()

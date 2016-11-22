@@ -23,12 +23,14 @@ public class AgentManager implements Drawable
     ArrayList<Agent>agents;
     int agentNumber;
     boolean killAgent;
+    int nbIteration;
     
     public AgentManager(int agentNumber,boolean killAgent,int maxPathLength)
     {
         this.agentNumber = agentNumber;
         this.killAgent = killAgent;
         initAgents(maxPathLength);
+        nbIteration = 0;
     }
     
     private void initAgents(int maxPathLength)
@@ -75,6 +77,7 @@ public class AgentManager implements Drawable
             a.eatten = true;
             a.nbEaten += 1;
         }
+        nbIteration++;
     }
     
     @Override

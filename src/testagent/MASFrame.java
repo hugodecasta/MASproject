@@ -239,7 +239,7 @@ public class MASFrame extends JFrame implements ActionListener
         }
         else if(!eNull && e.getSource() == experimentB)
         {
-            launchExperiment();
+            launchGuiExperiment();
         }
         else
         {
@@ -273,12 +273,14 @@ public class MASFrame extends JFrame implements ActionListener
             c.setEnabled(b);
         }
     }
-    public void launchExperiment()
+    public void launchGuiExperiment()
     {
-        SimulationParameter sim = createSimParam();
-        ExperimentParameter exp = new ExperimentParameter();
+        ExperimentParamFrame eF = new ExperimentParamFrame(this);
+    }
+    public void launchExperiment(ExperimentParameter exp)
+    {
+        SimulationParameter sim = createSimParam();        
         exp.sim = sim;
-        exp.testinParameterId = 1;
 
         ExperimentThread thread = new ExperimentThread(system,exp);
         thread.start();

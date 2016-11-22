@@ -1,0 +1,79 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package testagent;
+
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author p1608557
+ */
+public class ExperimentResults
+{
+    ArrayList<UnitResult>results;
+    ExperimentParameter exp;
+    public ExperimentResults(ExperimentParameter exp)
+    {
+        results = new ArrayList<>();
+        this.exp = exp;
+    }
+    
+    public void addResult(int iterations, float value)
+    {
+        UnitResult res = new UnitResult();
+        res.idTestParam = exp.testinParameterId;
+        res.testParamValue = value;
+        res.iterations = iterations;
+        results.add(res);
+    }
+    
+    public void saveExperimentResult(String fileName)
+    {
+        try
+        {
+            PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+            writer.println(exp.parameterNames[results.get(0).idTestParam]);
+            writer.print("value;");
+            for(UnitResult res : results)
+            {
+                writer.print(res.testParamValue+";");
+            }
+            writer.println();
+            writer.print("nbIterations;");
+            for(UnitResult res : results)
+            {
+                writer.print(res.iterations+";");
+            }
+            writer.close();
+        }
+        catch (Exception e)
+        {
+        }
+    }
+    
+    @Override
+    public String toString()
+    {
+        String ret = "";
+        
+        for(UnitResult res : results)
+        {
+            ret+="--EXPERIMENT ["+exp.parameterNames[res.idTestParam]+" : "+res.testParamValue+"]\n";
+            ret+="\t- Iterations = "+res.iterations+"\n";
+        }
+        
+        return ret;
+    }
+            
+    class UnitResult
+    {
+        int iterations;
+        int midPath;
+        int idTestParam;
+        float testParamValue;
+    }
+}
