@@ -55,7 +55,8 @@ public class MASystem implements Drawable
     }
     
     public void experiement(ExperimentParameter params)
-    {
+    {        
+        experimentIsDone = false;
         forceStopPlaying = true;
         frame.setPanelEnable(frame.GUI,false);
         // 0: nbFood
@@ -63,17 +64,19 @@ public class MASystem implements Drawable
         
         int min=0, max=0;
         int step=1;
+        int nbUnit = 1;
         switch(params.testinParameterId)
         {
             case 0:
-                min = 1; max = 100; step = 1;
+                min = 1; max = 100; step = 1; nbUnit = 10;
                 break;
             case 1:
-                min = 1; max = 100; step = 1;
+                min = 1; max = 100; step = 1; nbUnit = 10;
                 break;
         }
         SimulationParameter simul = params.sim;
-        System.out.println(min+" - "+max);
+        System.out.println("Running experiment: "+min+" -> "+max+" by "+step+" (using "+nbUnit+" test unit(s))");
+        
         for(int i=min;i<=max;i+=step)
         {
             frame.allowDraw = false;
@@ -87,17 +90,22 @@ public class MASystem implements Drawable
                     frame.agentSlider.setValue(i);
                     break;
             }
-            init(simul);
-            
-            boolean foodRemain = true;
-            while(foodRemain)
+            for(int j=0;j<nbUnit;j++)
             {
-                foodRemain = updateOnly();
+                init(simul);
+                boolean foodRemain = true;
+                while(foodRemain)
+                {
+                    foodRemain = updateOnly();
+                }
+                frame.draw();
             }
-            frame.draw();
         }
         frame.setPanelEnable(frame.GUI,true);
+        experimentIsDone = true;
+        frame.launchSystem();
     }
+    boolean experimentIsDone = true;
     
     public void play()
     {
@@ -164,6 +172,7 @@ public class MASystem implements Drawable
     }
     public void run()
     {
+        System.out.println("start Run");
         forceStopPlaying = false;
         while(!forceStopPlaying)
         {
@@ -184,6 +193,11 @@ public class MASystem implements Drawable
     {
             manager.run();
             return remainingFood()>0;
+    }
+    
+    public boolean isDone()
+    {
+        return remainingFood()==0;
     }
     
     @Override

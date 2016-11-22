@@ -257,11 +257,11 @@ public class MASFrame extends JFrame implements ActionListener
     public void updateGUI()
     {
         playPauseB.setText(system.play?"pause":"play");
-        playPauseB.setEnabled(!initNeeded);
-        initB.setEnabled(!system.play && initNeeded);
-        setPanelEnable(algoPanel,!system.play);
-        setPanelEnable(optionPanel,!system.play);
-        setPanelEnable(cursorParamPanel,!system.play);
+        playPauseB.setEnabled(!initNeeded && !system.isDone());
+        initB.setEnabled(!system.play && (initNeeded || system.isDone()));
+        setPanelEnable(algoPanel,!system.play && system.experimentIsDone);
+        setPanelEnable(optionPanel,!system.play && system.experimentIsDone);
+        setPanelEnable(cursorParamPanel,!system.play && system.experimentIsDone);
     }
     
     public void setPanelEnable(JPanel p, boolean b)
