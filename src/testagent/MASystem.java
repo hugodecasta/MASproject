@@ -70,13 +70,13 @@ public class MASystem implements Drawable
         switch(params.testinParameterId)
         {
             case 0:
-                min = 1; max = 100; step = 1; nbUnit = 10;
+                min = 1; max = 100; step = 1; //nbUnit = 1;
                 break;
             case 1:
-                min = 1; max = 100; step = 1; nbUnit = 10;
+                min = 1; max = 100; step = 1; //nbUnit = 1;
                 break;
             case 2:
-                min = 1; max = 20; step = 1; nbUnit = 10;
+                min = 1; max = 20; step = 1; //nbUnit = 1;
                 break;
         }
         SimulationParameter simul = params.sim;

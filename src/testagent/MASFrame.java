@@ -58,6 +58,7 @@ public class MASFrame extends JFrame implements ActionListener
         super("MAS test 1");
         this.system = system;
         this.system.setFrame(this);
+        this.setAlwaysOnTop(true);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double sWidth = screenSize.getWidth();
         double sHeight = screenSize.getHeight();

@@ -43,6 +43,7 @@ public class ExperimentParamFrame extends JFrame implements ActionListener
         
         this.setPreferredSize(new Dimension((int)tWidth, (int)tHeight));
         this.setResizable(true);
+        this.setAlwaysOnTop(true);
         
         panel = new JPanel();
         panel.setPreferredSize(new Dimension((int)tWidth, (int)tHeight));
