@@ -40,3 +40,5 @@ NOTES
 Lors de l'experimentation visant à determiner le nombre de patch optimal pour 2 agents, les résultats ont été différents des prévisions:
 Nous pensions obtenir une courbe exponentielle (justifier)
 Le résultat semble plutôt correspondre à une courbe logarithmique (justifier)
+
+Pourcentage de mort par patch ()

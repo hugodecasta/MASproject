@@ -120,6 +120,9 @@ public class Agent implements Drawable
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
     {
+        if(chemin==null)
+            return;
+        
         for(int i=1;i<chemin.size();++i)
         {
             if(usePathLength)

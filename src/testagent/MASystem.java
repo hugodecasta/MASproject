@@ -66,7 +66,7 @@ public class MASystem implements Drawable
         
         int min=0, max=0;
         int step=1;
-        int nbUnit = 1;
+        int nbUnit = params.unitIteration;
         switch(params.testinParameterId)
         {
             case 0:
@@ -167,10 +167,10 @@ public class MASystem implements Drawable
             int x = (int)(Math.random()*width);
             int y = (int)(Math.random()*height);
             int randSize = (int)(Math.random()*foodSize);
-            x = x >width-foodSize?width-foodSize:x;
-            y = y >height-foodSize?height-foodSize:y;
-            x = x < foodSize?foodSize:x;
-            y = y < foodSize?foodSize:y;
+            x = x >width-foodSize/2?width-foodSize/2:x;
+            y = y >height-foodSize/2?height-foodSize/2:y;
+            x = x < foodSize/2?foodSize/2:x;
+            y = y < foodSize/2?foodSize/2:y;
             Food nf = new Food(x,y,randomSize?randSize:foodSize);
             nf.setImages(food, eatted);
             manger.add(nf);
