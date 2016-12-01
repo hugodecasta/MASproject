@@ -14,7 +14,7 @@ public class ExperimentParameter
     public SimulationParameter sim;
     public int testinParameterId = -1;
     public int unitIteration = 10;
-    public String[] parameterNames = {"Food experiment", "agent experiment", "alpha experiment"};
+    public String[] parameterNames = {"Food experiment", "agent experiment", "alpha experiment", "food size"};
     
     public ExperimentParameter()
     {

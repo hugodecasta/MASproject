@@ -28,6 +28,7 @@ public class Agent implements Drawable
     int maxPathLength;
     boolean usePathLength;
     int distParcourue;
+    int power;
     public int nbEaten;
     //------------------------ pasBioInspi
     public int directionY = Math.random()<.5?-10:10;
@@ -39,6 +40,7 @@ public class Agent implements Drawable
         this.x = x;
         this.y = y;
         this.angle = 90;
+        this.power = 1;
         this.distParcourue = 0;
         this.nbEaten = 0;
         this.chemin = new ArrayList<>();
@@ -116,13 +118,9 @@ public class Agent implements Drawable
         String ret = "AGENT - "+x+", "+y+" - "+chemin.size();
         return ret;
     }
-
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
     {
-        if(chemin==null)
-            return;
-        
         for(int i=1;i<chemin.size();++i)
         {
             if(usePathLength)

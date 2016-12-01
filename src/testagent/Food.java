@@ -20,8 +20,9 @@ import sun.awt.image.ToolkitImage;
 public class Food implements Drawable
 {
     int x,y;
-    int size;
+    int startSize,size;
     boolean pick;
+    int minSize;
     Image food, eatted;
     
     public Food(int x,int y,int size)
@@ -29,6 +30,8 @@ public class Food implements Drawable
         this.x = x;
         this.y = y;
         this.size = size;
+        this.startSize = size;
+        this.minSize = 9;
         this.pick = false;
     }
     
@@ -38,9 +41,12 @@ public class Food implements Drawable
         this.eatted = eatted;
     }
     
-    public void pick()
+    public void pick(int power)
     {
-        this.pick = true;
+        this.size -= power;
+        this.pick = this.size <= minSize;
+        if(pick)
+            this.size = startSize;
     }
     
     public boolean touched(Agent agent)
@@ -71,5 +77,22 @@ public class Food implements Drawable
         int imageSize = (int)(size*w);
         g.drawImage(drawImage, (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)), 
                 imageSize, imageSize, null);
+        
+        if(!pick)
+        {
+            g.setColor(Color.WHITE);
+            Point pEaten = new Point(this.x-size/2, this.y+size/2);
+            g.drawString((((float)(size-minSize)/(float)(startSize-minSize))*100f)+"%", (int)(w*(x+pEaten.x)), (int)(w*(y+pEaten.y)));
+        }
+    }
+    //-----------------------------------------------------
+    class Point
+    {
+        public int x,y;
+        public Point(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 }

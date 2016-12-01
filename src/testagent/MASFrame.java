@@ -32,10 +32,12 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -55,7 +57,7 @@ public class MASFrame extends JFrame implements ActionListener
     
     public MASFrame(int width,int height, MASystem system)
     {
-        super("MAS test 1");
+        super("Bio-Inspired Multi-Agent Simulation System");
         this.system = system;
         this.system.setFrame(this);
         this.setAlwaysOnTop(true);
@@ -76,7 +78,6 @@ public class MASFrame extends JFrame implements ActionListener
         
         
         JPanel initPanel = new JPanel();
-        //initPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         initB = new JButton("INIT");
         initB.addActionListener(this);
         playPauseB = new JButton("play");
@@ -90,19 +91,28 @@ public class MASFrame extends JFrame implements ActionListener
         experimentPanel.add(experimentB);
         
         algoPanel = new JPanel();
-        algoPanel.setLayout(new GridLayout(3,2));
+        algoPanel.setLayout(new BorderLayout());
+        algoPanel.setBorder(BorderFactory.createMatteBorder(1,0,1,0,Color.GRAY));
+        JPanel p = new JPanel();
+        p.setLayout(new GridLayout(2,2));
         //absParamPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         algoRadioGroup = new ButtonGroup();
-        addRadio("random", -1,true);
-        addRadio("Levy", 1);
-        addRadio("Levy simulation", 2);
-        addRadio("robot", 3);
-        addRadio("spiral", 4);
+        addRadio(p,"random", -1,true);
+        addRadio(p,"Levy", 1);
+        addRadio(p,"Levy simulation", 2);
+        addRadio(p,"robot", 3);
+        
+        algoPanel.add(new JLabel("Algorithm choice", SwingConstants.CENTER),BorderLayout.NORTH);
+        algoPanel.add(p,BorderLayout.CENTER);
         
         optionPanel = new JPanel();
-        optionPanel.setLayout(new GridLayout(2,2));
-        killAgentBox = addOption("Kill agent ?");
-        foodSizeBox= addOption("random food size ?");
+        optionPanel.setLayout(new BorderLayout());
+        JPanel pp = new JPanel();
+        pp.setLayout(new GridLayout(1,2));
+        killAgentBox = addOption(pp,"One eat per agent");
+        foodSizeBox= addOption(pp,"random food size");
+        optionPanel.add(new JLabel("Simulation Parameters", SwingConstants.CENTER),BorderLayout.NORTH);
+        optionPanel.add(pp,BorderLayout.CENTER);
                 
         cursorParamPanel = new JPanel();
         cursorParamPanel.setLayout(new GridLayout(2,3));
@@ -150,9 +160,9 @@ public class MASFrame extends JFrame implements ActionListener
     }
     
     HashMap<String,Integer> radios;
-    private void addRadio(String name,int algoId)
+    private void addRadio(JPanel p,String name,int algoId)
     {
-        addRadio(name,algoId,false);
+        addRadio(p,name,algoId,false);
     }
     private JSlider addSlider(String name,int min,int max,int init,int minor,int major)
     {
@@ -192,14 +202,14 @@ public class MASFrame extends JFrame implements ActionListener
         }
 
     }
-    private JCheckBox addOption(String name)
+    private JCheckBox addOption(JPanel p,String name)
     {
         JCheckBox modif = new JCheckBox(name);
         modif.addActionListener(this);
-        optionPanel.add(modif);
+        p.add(modif);
         return modif;
     }
-    private void addRadio(String name,int algoId,boolean selected)
+    private void addRadio(JPanel p,String name,int algoId,boolean selected)
     {
         if(radios==null)
             radios = new HashMap<>();
@@ -207,7 +217,7 @@ public class MASFrame extends JFrame implements ActionListener
         JRadioButton new_radio = new JRadioButton(name);
         new_radio.setActionCommand(name);
         algoRadioGroup.add(new_radio);
-        algoPanel.add(new_radio);     
+        p.add(new_radio);     
         new_radio.setSelected(selected);
         new_radio.addActionListener(this);
     }
@@ -282,10 +292,29 @@ public class MASFrame extends JFrame implements ActionListener
     {
         SimulationParameter sim = createSimParam();        
         exp.sim = sim;
+        
+        if(sim.usedAlgo!=1 && exp.testinParameterId == 2)
+        {
+            experimentError("Alpha can only be tested with the Levy algorithm selected");
+            return;
+        }
+        else if(sim.killAgent)
+        {
+            experimentError("No experiment can be run with the \"One eat per agent\" parameter selected");
+            return;
+        }
+            
 
         ExperimentThread thread = new ExperimentThread(system,exp);
         thread.start();
         System.out.println("je fonctionne en ||");
+    }
+    public void experimentError(String error)
+    {
+        JOptionPane.showMessageDialog(this,
+            error,
+            "Non testable parameters",
+            JOptionPane.ERROR_MESSAGE);
     }
     public void experimentEnded()
     {
@@ -355,6 +384,7 @@ public class MASFrame extends JFrame implements ActionListener
             double newSize = Math.min(newSizeW, newSizeH);
             
             system.draw(0,0,newSize,newSize,g2);
+            allowDraw = false;
         }
     }
 }

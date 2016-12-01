@@ -78,6 +78,9 @@ public class MASystem implements Drawable
             case 2:
                 min = 1; max = 20; step = 1; //nbUnit = 1;
                 break;
+            case 3:
+                min = 10; max = 100; step = 1; //nbUnit = 1;
+                break;
         }
         SimulationParameter simul = params.sim;
         System.out.println("Running experiment: "+min+" -> "+max+" by "+step+" (using "+nbUnit+" test unit(s))");
@@ -102,6 +105,11 @@ public class MASystem implements Drawable
                     simul.alpha = (float)i/10f;
                     testingValue = simul.alpha;
                     break;
+                case 3:
+                    simul.foodSize = i;
+                    testingValue = simul.foodSize;
+                    frame.taillePatchSlider.setValue(i);
+                    break;
             }
             int iterMoyenne = 0;
             for(int j=0;j<nbUnit;j++)
@@ -115,9 +123,10 @@ public class MASystem implements Drawable
                 iterMoyenne += manager.nbIteration;
                 frame.draw();
             }
-            results.addResult(iterMoyenne/nbUnit, testingValue);
+            String name = "Exp-"+params.parameterNames[params.testinParameterId]+".csv";
+            results.appendExperimentResult(name,iterMoyenne/nbUnit, testingValue);
         }
-        results.saveExperimentResult("results.csv");
+        
         System.out.println(results);
         frame.setPanelEnable(frame.GUI,true);
         experimentIsDone = true;
@@ -148,7 +157,7 @@ public class MASystem implements Drawable
     private void initManger(int nbMax,boolean randomSize,int size)
     {
         Image food = null;
-        Image eatted = null;        
+        Image eatted = null;
         try
         {
             food = ImageIO.read(new File("src/testagent/food.png"));

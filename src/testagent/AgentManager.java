@@ -65,7 +65,7 @@ public class AgentManager implements Drawable
                     if(f.touched(a))
                     {
                         removers.add(a);
-                        f.pick();
+                        f.pick(a.power);
                     }
                 }
             }
@@ -75,7 +75,7 @@ public class AgentManager implements Drawable
         {
             //agents.remove(a);
             a.eatten = true;
-            a.nbEaten += 1;
+            a.nbEaten += a.power;
         }
         nbIteration++;
     }

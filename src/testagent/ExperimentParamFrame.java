@@ -94,10 +94,15 @@ public class ExperimentParamFrame extends JFrame implements ActionListener
     {
         if(e.getSource() == launchButton)
         {
+            launchExperiment();
+        }
+    }
+    public void launchExperiment()
+    {
+        
             int paramId = radios.get(experRadioGroup.getSelection().getActionCommand());
             System.out.println(paramId);
             exp.testinParameterId = paramId;
             frame.launchExperiment(exp);
-        }
     }
 }

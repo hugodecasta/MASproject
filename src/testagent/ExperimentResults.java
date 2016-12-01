@@ -5,7 +5,12 @@
  */
 package testagent;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 /**
@@ -49,6 +54,26 @@ public class ExperimentResults
                 writer.print(res.iterations+";");
             }
             writer.close();
+        }
+        catch (Exception e)
+        {
+        }
+    }
+    
+    public void appendExperimentResult(String fileName,int iterations, float value)
+    {
+        File f = new File(fileName);
+        try
+        {
+            if(!f.exists())
+            {
+                PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+                writer.close();
+                Files.write(Paths.get(fileName), 
+                        "value;nbIteration".getBytes(),
+                        StandardOpenOption.APPEND);
+            }
+            Files.write(Paths.get(fileName), ("\n"+value+";"+iterations).getBytes(), StandardOpenOption.APPEND);
         }
         catch (Exception e)
         {
