@@ -59,9 +59,10 @@ public class Agent implements Drawable
     
     private void initColor()
     {
-        int R = (int)(Math.random()*255);
-        int G = (int)(Math.random()*255);
-        int B = (int)(Math.random()*255);
+        int min = 50,max = 255;
+        int R = (int)(Math.random()*(max-min))+min;
+        int G = (int)(Math.random()*(max-min))+min;
+        int B = (int)(Math.random()*(max-min))+min;
         myColor = new Color(R, G, B);
     }
     

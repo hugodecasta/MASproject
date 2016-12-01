@@ -58,6 +58,8 @@ public class MASFrame extends JFrame implements ActionListener
     public MASFrame(int width,int height, MASystem system)
     {
         super("Bio-Inspired Multi-Agent Simulation System");
+        
+        SimulationParameter temp_params = new SimulationParameter();
         this.system = system;
         this.system.setFrame(this);
         this.setAlwaysOnTop(true);
@@ -116,12 +118,12 @@ public class MASFrame extends JFrame implements ActionListener
                 
         cursorParamPanel = new JPanel();
         cursorParamPanel.setLayout(new GridLayout(2,3));
-        foodSlider = addSlider("food count",1,101,2,1,10);
-        agentSlider = addSlider("agent count",1,101,2,1,10);
-        pathSlider = addSlider("path size",100,310,200,10,50);
-        sleepSlider = addSlider("sleep time",1,101,30,10,10);
-        taillePatchSlider = addSlider("food size",10,100,30,5,5);
-        tailleEnvSlider = addSlider("MAS size",100,1000,500,10,100);
+        foodSlider = addSlider("food count",1,101,temp_params.nbFood,1,10);
+        agentSlider = addSlider("agent count",1,101,temp_params.nbAgents,1,10);
+        pathSlider = addSlider("path size",100,310,temp_params.pathMaxLength,10,50);
+        sleepSlider = addSlider("sleep time",1,101,temp_params.speed,10,10);
+        taillePatchSlider = addSlider("food size",10,150,temp_params.foodSize,5,10);
+        tailleEnvSlider = addSlider("MAS size",100,1000,temp_params.width,10,100);
         
         GUI = new JPanel();
         //GUI.setBorder(BorderFactory.createLineBorder(Color.red));

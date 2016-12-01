@@ -34,9 +34,16 @@ public class MASystem implements Drawable
     long startTime,endTime,timeAdder;
     boolean play;
     boolean forceStopPlaying;
+    Image background;
     
     public MASystem(SimulationParameter params)
     {
+        
+        try {
+            background = ImageIO.read(new File("src/testagent/background.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(MASystem.class.getName()).log(Level.SEVERE, null, ex);
+        }
         init(params);
     }
     
@@ -235,8 +242,10 @@ public class MASystem implements Drawable
         else if(play)
             pause();
         
-        g.setColor(Color.GRAY);
-        g.fillRect((int)(x*w), (int)(y*h), (int)(width*w), (int)(height*h));
+        /*g.setColor(Color.white);
+        g.fillRect((int)(x*w), (int)(y*h), (int)(width*w), (int)(height*h));*/
+        
+        g.drawImage(background, (int)(x*w), (int)(y*h),(int)(width*w), (int)(height*h),null);
         
         for(Food f : manger)
         {

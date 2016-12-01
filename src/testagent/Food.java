@@ -82,7 +82,8 @@ public class Food implements Drawable
         {
             g.setColor(Color.WHITE);
             Point pEaten = new Point(this.x-size/2, this.y+size/2);
-            g.drawString((((float)(size-minSize)/(float)(startSize-minSize))*100f)+"%", (int)(w*(x+pEaten.x)), (int)(w*(y+pEaten.y)));
+            float percent = (((float)(size-minSize)/(float)(startSize-minSize))*100f);
+            g.drawString((int)percent+"%", (int)(w*(x+pEaten.x)), (int)(w*(y+pEaten.y)));
         }
     }
     //-----------------------------------------------------
