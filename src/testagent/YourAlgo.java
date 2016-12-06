@@ -94,10 +94,14 @@ public class YourAlgo
         double zn = 1.0/Math.pow(transfo, 1.0/alpha)*mSum;
         double pas = zn;
         
-        double randXMove = random.nextDouble()*2-1;
-        double randYMove = random.nextDouble()*2-1;
+        double angle = random.nextDouble()*(2*Math.PI);
         
-        agent.move((int)(randXMove*pas),(int)(randYMove*pas));
+        /*double randXMove = random.nextDouble()*2-1;
+        double randYMove = random.nextDouble()*2-1;*/
+        double xMove = pas*Math.cos(angle);
+        double yMove = pas*Math.sin(angle);
+        
+        agent.move((int)(xMove),(int)(yMove));
     }
     
     public static void spiral(Agent agent)
