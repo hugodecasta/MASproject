@@ -42,7 +42,7 @@ public class ExperimentParamFrame extends JFrame implements ActionListener
     
     public ExperimentParamFrame(MASFrame frame)
     {
-        super("Choix du paramètre d'expérimentation");
+        super("Experiment parameters panel");
         ExperimentParameter temp_params = new ExperimentParameter();
         this.frame = frame;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -65,7 +65,7 @@ public class ExperimentParamFrame extends JFrame implements ActionListener
         experRadioGroup = new ButtonGroup();
         int id = 0;
         JPanel algoPanel = new JPanel(new BorderLayout());
-        algoPanel.add(new JLabel("Algorithm choice", SwingConstants.CENTER),BorderLayout.NORTH);
+        algoPanel.add(new JLabel("Parameter to Experiment", SwingConstants.CENTER),BorderLayout.NORTH);
         JPanel algoPanelChoice = new JPanel();
         for(String name : exp.parameterNames)
         {
