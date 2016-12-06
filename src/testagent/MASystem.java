@@ -56,7 +56,7 @@ public class MASystem implements Drawable
         this.height = params.height;
         manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength);
         beginFoodCount = params.nbFood;
-        initManger(params.nbFood,params.foodSizeRandom,params.foodSize);
+        initManger(params.nbFood,params.foodSize,params.foodLife,params.foodLifeSize);
         this.speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
         YourAlgo.setLevyAlpha(params.alpha);
@@ -72,29 +72,29 @@ public class MASystem implements Drawable
         // 1: nbAgent
         
         int min=0, max=0;
-        int step=1;
+        int step = params.stepNumber;
         int nbUnit = params.unitIteration;
         switch(params.testinParameterId)
         {
             case 0:
-                min = 1; max = 100; step = 1; //nbUnit = 1;
+                min = 1; max = 101; //step = 1; //nbUnit = 1;
                 break;
             case 1:
-                min = 1; max = 100; step = 1; //nbUnit = 1;
+                min = 1; max = 101; //step = 1; //nbUnit = 1;
                 break;
             case 2:
-                min = 1; max = 20; step = 1; //nbUnit = 1;
+                min = 1; max = 20; //step = 1; //nbUnit = 1;
                 break;
             case 3:
-                min = 10; max = 100; step = 1; //nbUnit = 1;
+                min = 10; max = 150; //step = 1; //nbUnit = 1;
                 break;
         }
         SimulationParameter simul = params.sim;
-        System.out.println("Running experiment: "+min+" -> "+max+" by "+step+" (using "+nbUnit+" test unit(s))");
         
         float testingValue = 0;
         for(int i=min;i<=max;i+=step)
         {
+            System.out.println("Running experiment: "+min+" -> "+max+" by "+step+" (using "+nbUnit+" test unit(s)) doing "+i);
             frame.allowDraw = false;
             switch(params.testinParameterId)
             {
@@ -161,7 +161,7 @@ public class MASystem implements Drawable
         this.frame = frame;
     }
     
-    private void initManger(int nbMax,boolean randomSize,int size)
+    private void initManger(int nbMax,int size, boolean foodLife, boolean foodLifeSize)
     {
         Image food = null;
         Image eatted = null;
@@ -187,7 +187,7 @@ public class MASystem implements Drawable
             y = y >height-foodSize/2?height-foodSize/2:y;
             x = x < foodSize/2?foodSize/2:x;
             y = y < foodSize/2?foodSize/2:y;
-            Food nf = new Food(x,y,randomSize?randSize:foodSize);
+            Food nf = new Food(x,y,foodSize,foodLife,foodLifeSize);
             nf.setImages(food, eatted);
             manger.add(nf);
         }

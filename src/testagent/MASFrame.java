@@ -52,12 +52,12 @@ public class MASFrame extends JFrame implements ActionListener
     JButton initB,playPauseB,experimentB;
     MASystem system;
     ButtonGroup algoRadioGroup;
-    JCheckBox killAgentBox,foodSizeBox;
+    JCheckBox killAgentBox,foodLifeBox,foodLifeSizeBox;
     JSlider foodSlider,agentSlider,tailleEnvSlider,sleepSlider,pathSlider,taillePatchSlider;
     
     public MASFrame(int width,int height, MASystem system)
     {
-        super("Bio-Inspired Multi-Agent Simulation System");
+        super("Bio-Inspired Multi-Agent Simulation System (BIMASS)");
         
         SimulationParameter temp_params = new SimulationParameter();
         this.system = system;
@@ -110,9 +110,11 @@ public class MASFrame extends JFrame implements ActionListener
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
         JPanel pp = new JPanel();
-        pp.setLayout(new GridLayout(1,2));
-        killAgentBox = addOption(pp,"One eat per agent");
-        foodSizeBox= addOption(pp,"random food size");
+        pp.setLayout(new GridLayout(2,2));
+        killAgentBox = addOption(pp,"One eat per agent",temp_params.killAgent);
+        foodLifeBox= addOption(pp,"Food life",temp_params.foodLifeSize);
+        foodLifeSizeBox= addOption(pp,"Food life with size",temp_params.foodLifeSize);
+        
         optionPanel.add(new JLabel("Simulation Parameters", SwingConstants.CENTER),BorderLayout.NORTH);
         optionPanel.add(pp,BorderLayout.CENTER);
                 
@@ -204,10 +206,11 @@ public class MASFrame extends JFrame implements ActionListener
         }
 
     }
-    private JCheckBox addOption(JPanel p,String name)
+    private JCheckBox addOption(JPanel p,String name, boolean init)
     {
         JCheckBox modif = new JCheckBox(name);
         modif.addActionListener(this);
+        modif.setSelected(init);
         p.add(modif);
         return modif;
     }
@@ -253,6 +256,10 @@ public class MASFrame extends JFrame implements ActionListener
         else if(!eNull && e.getSource() == experimentB)
         {
             launchGuiExperiment();
+        }
+        else if(!eNull && e.getSource() == foodLifeSizeBox)
+        {
+            foodLifeBox.setSelected(true);
         }
         else
         {
@@ -335,7 +342,8 @@ public class MASFrame extends JFrame implements ActionListener
         simPar.usedAlgo = radios.get(algoRadioGroup.getSelection().getActionCommand());
         
         simPar.killAgent = killAgentBox.isSelected();
-        simPar.foodSizeRandom = foodSizeBox.isSelected();
+        simPar.foodLife = foodLifeBox.isSelected();
+        simPar.foodLifeSize = foodLifeSizeBox.isSelected();
         
         simPar.nbFood = foodSlider.getValue();
         simPar.foodSize = taillePatchSlider.getValue();

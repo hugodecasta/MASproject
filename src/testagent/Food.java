@@ -21,15 +21,21 @@ public class Food implements Drawable
 {
     int x,y;
     int startSize,size;
+    int life;
     boolean pick;
+    boolean useLife;
+    boolean useSize;
     int minSize;
     Image food, eatted;
     
-    public Food(int x,int y,int size)
+    public Food(int x,int y,int size,boolean useLife,boolean useSize)
     {
         this.x = x;
         this.y = y;
         this.size = size;
+        this.life = size;
+        this.useLife = useLife;
+        this.useSize = useSize;
         this.startSize = size;
         this.minSize = 9;
         this.pick = false;
@@ -43,8 +49,12 @@ public class Food implements Drawable
     
     public void pick(int power)
     {
-        this.size -= power;
-        this.pick = this.size <= minSize;
+        this.life -= useLife?power:this.life;
+        if(useSize)
+        {
+            this.size = this.life;
+        }
+        this.pick = this.life <= minSize || (!useLife);
         if(pick)
             this.size = startSize;
     }
@@ -57,6 +67,7 @@ public class Food implements Drawable
         return distance<=size/2;
     }
     
+    @Override
     public String toString()
     {
         return "Food - "+x+", "+y+(this.pick?"  [PICKED]":"");
@@ -82,7 +93,7 @@ public class Food implements Drawable
         {
             g.setColor(Color.WHITE);
             Point pEaten = new Point(this.x-size/2, this.y+size/2);
-            float percent = (((float)(size-minSize)/(float)(startSize-minSize))*100f);
+            float percent = (((float)(life-minSize)/(float)(startSize-minSize))*100f);
             g.drawString((int)percent+"%", (int)(w*(x+pEaten.x)), (int)(w*(y+pEaten.y)));
         }
     }

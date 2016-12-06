@@ -15,9 +15,10 @@ public class SimulationParameter
     public int nbAgents=10,nbFood=1;
     public int speed=30;
     public int pathMaxLength=200;
-    public boolean killAgent=true;
+    public boolean killAgent=false;
     public int usedAlgo=1;
-    public boolean foodSizeRandom=false;
+    public boolean foodLife = true;
+    public boolean foodLifeSize = true;
     public int foodSize=150;
     public float alpha = 1f;
     
