@@ -125,8 +125,8 @@ public class MASFrame extends JFrame implements ActionListener
         agentSlider = addSlider("agent count",1,101,temp_params.nbAgents,1,10);
         pathSlider = addSlider("path size",100,310,temp_params.pathMaxLength,10,50);
         sleepSlider = addSlider("sleep time",1,101,temp_params.speed,10,10);
-        taillePatchSlider = addSlider("food size",10,150,temp_params.foodSize,5,10);
-        tailleEnvSlider = addSlider("MAS size",100,1000,temp_params.width,10,100);
+        taillePatchSlider = addSlider("food size",10,500,temp_params.foodSize,50,100);
+        tailleEnvSlider = addSlider("MAS size",100,10000,temp_params.width,100,1000);
         
         GUI = new JPanel();
         //GUI.setBorder(BorderFactory.createLineBorder(Color.red));

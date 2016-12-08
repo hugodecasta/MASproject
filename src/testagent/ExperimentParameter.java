@@ -15,7 +15,7 @@ public class ExperimentParameter
     public int testinParameterId = -1;
     public int stepNumber = 1;
     public int unitIteration = 10;
-    public String[] parameterNames = {"Food experiment", "agent experiment", "alpha experiment", "food size", "max food percent"};
+    public String[] parameterNames = {"Food experiment", "agent experiment", "alpha experiment", "food size"};
     
     public ExperimentParameter()
     {

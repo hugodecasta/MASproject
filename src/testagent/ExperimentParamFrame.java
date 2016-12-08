@@ -134,5 +134,6 @@ public class ExperimentParamFrame extends JFrame implements ActionListener
             exp.stepNumber = (int)stepSpinner.getValue();
             exp.unitIteration = (int)unitSpinner.getValue();
             frame.launchExperiment(exp);
+            this.dispose();
     }
 }

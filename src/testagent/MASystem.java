@@ -58,7 +58,7 @@ public class MASystem implements Drawable
         this.height = params.height;
         manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength,params.foodCollision);
         beginFoodCount = params.nbFood;
-        initManger(params.nbFood,params.foodSize,params.foodLife,params.foodLifeSize);
+        initManger(params.nbFood,params.foodSize,params.foodLife,params.foodLifeSize,params.agentIsSized);
         this.speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
         YourAlgo.setLevyAlpha(params.alpha);
@@ -173,7 +173,7 @@ public class MASystem implements Drawable
         this.frame = frame;
     }
     
-    private void initManger(int nbMax,int size, boolean foodLife, boolean foodLifeSize)
+    private void initManger(int nbMax,int size, boolean foodLife, boolean foodLifeSize, boolean agentIsSized)
     {
         Image food = null;
         Image eatted = null;
@@ -199,7 +199,7 @@ public class MASystem implements Drawable
             y = y >height-foodSize/2?height-foodSize/2:y;
             x = x < foodSize/2?foodSize/2:x;
             y = y < foodSize/2?foodSize/2:y;
-            Food nf = new Food(x,y,foodSize,foodLife,foodLifeSize);
+            Food nf = new Food(x,y,foodSize,foodLife,foodLifeSize,agentIsSized);
             nf.setImages(food, eatted);
             manger.add(nf);
         }

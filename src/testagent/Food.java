@@ -26,9 +26,10 @@ public class Food implements Drawable
     boolean useLife;
     boolean useSize;
     int minSize;
+    boolean agentIsSized;
     Image food, eatted;
     
-    public Food(int x,int y,int size,boolean useLife,boolean useSize)
+    public Food(int x,int y,int size,boolean useLife,boolean useSize, boolean agentIsSized)
     {
         this.x = x;
         this.y = y;
@@ -38,6 +39,7 @@ public class Food implements Drawable
         this.useSize = useSize;
         this.startSize = size;
         this.minSize = 9;
+        this.agentIsSized = agentIsSized;
         this.pick = false;
     }
     
@@ -64,7 +66,7 @@ public class Food implements Drawable
         if(pick)
             return false;
         double distance = Math.sqrt(Math.pow(agent.x-x,2)+Math.pow(agent.y-y,2));
-        return distance<=size/2;
+        return distance<=size/(agentIsSized?2:1);
     }
     
     float distance(Point v, Point w)
@@ -120,7 +122,7 @@ public class Food implements Drawable
         float dy = y - center.y;
 
         double distance = Math.sqrt(dx*dx + dy*dy);
-        return distance<=size/2;
+        return distance<=size/(agentIsSized?2:1);
     }
     
     @Override
