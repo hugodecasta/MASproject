@@ -38,6 +38,8 @@ public class Agent implements Drawable
     
     public Agent(int x,int y,int maxPathLength)
     {
+        old_x = x;
+        old_y = y;
         this.x = x;
         this.y = y;
         this.angle = 90;
@@ -109,7 +111,9 @@ public class Agent implements Drawable
             bumped = 0;
             y = rebond;
         }
-        
+        updateDistance();
+        old_x = x;
+        old_y = y;
         chemin.add(new Point(x,y));
         
         return bumped;
@@ -118,7 +122,7 @@ public class Agent implements Drawable
     public void updateDistance()
     {
         double dist = Math.sqrt(Math.pow(x-old_x,2)+Math.pow(y-old_y,2));
-        this.distParcourue += dist;
+        //this.distParcourue += dist;
     }
     
     @Override

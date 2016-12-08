@@ -79,7 +79,6 @@ public class AgentManager implements Drawable
                 a.find();
                 if(foodCollision)
                     end = a.getPosition();
-                a.updateDistance();
                 
                 for(Food f : MASystem.manger)
                 {

@@ -11,9 +11,10 @@ package testagent;
  */
 public class SimulationParameter
 {
-    public int width=300,height=300;
-    public int nbAgents=10,nbFood=5;
+    public int width=1000,height=1000;
+    public int nbAgents=10,nbFood=100;
     public int speed=30;
+    public float maxFoodPercent=1;
     public int pathMaxLength=200;
     public boolean killAgent=false;
     public int usedAlgo=1;

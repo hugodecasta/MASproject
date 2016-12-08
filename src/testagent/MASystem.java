@@ -34,6 +34,7 @@ public class MASystem implements Drawable
     long startTime,endTime,timeAdder;
     boolean play;
     boolean forceStopPlaying;
+    float maxFoodPercent;
     Image background;
     
     public MASystem(SimulationParameter params)
@@ -49,6 +50,7 @@ public class MASystem implements Drawable
     
     public void init(SimulationParameter params)
     {
+        maxFoodPercent = params.maxFoodPercent;
         startTime = 0;
         endTime = 0;
         timeAdder = 0;
@@ -88,6 +90,9 @@ public class MASystem implements Drawable
             case 3:
                 min = 10; max = 150; //step = 1; //nbUnit = 1;
                 break;
+            case 4:
+                min = 1; max = 100; //step = 1; //nbUnit = 1;
+                break;
         }
         SimulationParameter simul = params.sim;
         
@@ -116,6 +121,10 @@ public class MASystem implements Drawable
                     simul.foodSize = i;
                     testingValue = simul.foodSize;
                     frame.taillePatchSlider.setValue(i);
+                    break;
+                case 4:
+                    simul.maxFoodPercent = (float)i/100f;
+                    maxFoodPercent = simul.maxFoodPercent;
                     break;
             }
             int iterMoyenne = 0;
@@ -229,7 +238,12 @@ public class MASystem implements Drawable
     public boolean updateOnly()
     {
             manager.run();
-            return remainingFood()>0;
+            return encoreDeLaFood();
+    }
+    
+    public boolean encoreDeLaFood()
+    {
+        return remainingFood()>(beginFoodCount*maxFoodPercent);
     }
     
     public boolean isDone()
@@ -240,7 +254,7 @@ public class MASystem implements Drawable
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
     {
-        if(remainingFood()>0 && play)
+        if(encoreDeLaFood() && play)
             manager.run();
         else if(play)
             pause();
@@ -278,6 +292,7 @@ public class MASystem implements Drawable
         g.drawString("TIME : "+strTime, (int)((x*w)+15), (int)((y*w)+45));
         g.drawString("ITER : "+manager.nbIteration, (int)((x*w)+15), (int)((y*w)+65));
         g.drawString("ALPHA : "+YourAlgo.lAlpha, (int)((x*w)+15), (int)((y*w)+85));
+        g.drawString("FOODp : "+maxFoodPercent*100+"%", (int)((x*w)+15), (int)((y*w)+105));
     }
     
     public int remainingFood()
