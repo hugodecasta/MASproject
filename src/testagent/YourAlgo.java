@@ -47,8 +47,10 @@ public class YourAlgo
     // Algo de deplacement 100% aleatoire
     public static void randTen(Agent agent)
     {
-        int randXMove = random.nextInt(10-(-10)+1)+(-10);
-        int randYMove = random.nextInt(10-(-10)+1)+(-10);
+        int max = 10;
+        int min = -10;
+        int randXMove = random.nextInt(max-(min)+1)+(min);
+        int randYMove = random.nextInt(max-(min)+1)+(min);
     
         agent.move(randXMove,randYMove);
     }

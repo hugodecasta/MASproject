@@ -23,14 +23,26 @@ public class AgentManager implements Drawable
     ArrayList<Agent>agents;
     int agentNumber;
     boolean killAgent;
+    boolean foodCollision;
     int nbIteration;
     
-    public AgentManager(int agentNumber,boolean killAgent,int maxPathLength)
+    public AgentManager(int agentNumber,boolean killAgent,int maxPathLength, boolean foodCollision)
     {
         this.agentNumber = agentNumber;
         this.killAgent = killAgent;
         initAgents(maxPathLength);
+        this.foodCollision = foodCollision;
         nbIteration = 0;
+    }
+    
+    public float getChemin()
+    {
+        int chemin = 0;
+        for(Agent a : agents)
+        {
+            chemin += a.distParcourue;
+        }
+        return chemin/agents.size();
     }
     
     private void initAgents(int maxPathLength)
@@ -55,17 +67,34 @@ public class AgentManager implements Drawable
     public void run()
     {
         ArrayList<Agent> removers = new ArrayList<>();
+        
         for(Agent a : agents)
         {
             if(!(killAgent && a.eatten))
             {
+                Point start = null, end=null;
+                if(foodCollision)
+                    start = a.getPosition();
+                
                 a.find();
+                if(foodCollision)
+                    end = a.getPosition();
+                a.updateDistance();
+                
                 for(Food f : MASystem.manger)
                 {
                     if(f.touched(a))
                     {
                         removers.add(a);
                         f.pick(a.power);
+                    }
+                    else if(foodCollision)
+                    {
+                        if(f.crossed(start, end))
+                        {
+                            removers.add(a);
+                            f.pick(a.power);
+                        }
                     }
                 }
             }
@@ -78,6 +107,11 @@ public class AgentManager implements Drawable
             a.nbEaten += a.power;
         }
         nbIteration++;
+    }
+    
+    Point foodCross(Point start, Point end)
+    {
+        return null;
     }
     
     @Override

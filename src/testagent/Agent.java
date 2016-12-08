@@ -20,6 +20,7 @@ public class Agent implements Drawable
 {
     int type;
     int x,y;
+    int old_x,old_y;
     int angle;
     ArrayList<Point>chemin;
     Color myColor;
@@ -70,6 +71,10 @@ public class Agent implements Drawable
     {
         YourAlgo.find(this);
     }
+    Point getPosition()
+    {
+        return new Point(this.x,this.y);
+    }
     public int move(int xMove,int yMove)
     {
         int bumped = -1;
@@ -77,8 +82,8 @@ public class Agent implements Drawable
         if(usePathLength && chemin.size()==maxPathLength)
             chemin.remove(0);
         
-        int xOld = x;
-        int yOld = y;
+        int old_x = x;
+        int old_y = y;
         
         x += xMove;
         y += yMove;
@@ -105,12 +110,15 @@ public class Agent implements Drawable
             y = rebond;
         }
         
-        double dist = Math.sqrt(Math.pow(x-xOld,2)+Math.pow(y-yOld,2));
-        this.distParcourue += dist;
-        
         chemin.add(new Point(x,y));
         
         return bumped;
+    }
+    
+    public void updateDistance()
+    {
+        double dist = Math.sqrt(Math.pow(x-old_x,2)+Math.pow(y-old_y,2));
+        this.distParcourue += dist;
     }
     
     @Override
@@ -135,10 +143,10 @@ public class Agent implements Drawable
                 g.setColor(myColor);
             }
             //g.setColor(myColor);
-            int px2 = chemin.get(i).x;
-            int py2 = chemin.get(i).y;
-            int px1 = chemin.get(i-1).x;
-            int py1 = chemin.get(i-1).y;
+            float px2 = chemin.get(i).x;
+            float py2 = chemin.get(i).y;
+            float px1 = chemin.get(i-1).x;
+            float py1 = chemin.get(i-1).y;
             g.drawLine((int)((x+px1)*w), (int)((y+py1)*w), (int)(w*(x+px2)), (int)(w*(y+py2)));
         }
         //g.setColor(Color.white);
@@ -165,13 +173,4 @@ public class Agent implements Drawable
         }
     }
     //-----------------------------------------------------
-    class Point
-    {
-        public int x,y;
-        public Point(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
 }

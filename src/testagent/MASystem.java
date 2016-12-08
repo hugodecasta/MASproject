@@ -54,7 +54,7 @@ public class MASystem implements Drawable
         timeAdder = 0;
         this.width = params.width;
         this.height = params.height;
-        manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength);
+        manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength,params.foodCollision);
         beginFoodCount = params.nbFood;
         initManger(params.nbFood,params.foodSize,params.foodLife,params.foodLifeSize);
         this.speed = params.speed;
@@ -83,7 +83,7 @@ public class MASystem implements Drawable
                 min = 1; max = 101; //step = 1; //nbUnit = 1;
                 break;
             case 2:
-                min = 1; max = 20; //step = 1; //nbUnit = 1;
+                min = 5; max = 20; //step = 1; //nbUnit = 1;
                 break;
             case 3:
                 min = 10; max = 150; //step = 1; //nbUnit = 1;
@@ -119,6 +119,7 @@ public class MASystem implements Drawable
                     break;
             }
             int iterMoyenne = 0;
+            int cheminMoyen = 0;
             for(int j=0;j<nbUnit;j++)
             {
                 init(simul);
@@ -128,10 +129,12 @@ public class MASystem implements Drawable
                     foodRemain = updateOnly();
                 }
                 iterMoyenne += manager.nbIteration;
+                //cheminMoyen += manager.getChemin();
                 frame.draw();
             }
             String name = "Exp-"+params.parameterNames[params.testinParameterId]+".csv";
             results.appendExperimentResult(name,iterMoyenne/nbUnit, testingValue);
+            //results.appendExperimentResult(name,cheminMoyen/nbUnit, testingValue);
         }
         
         System.out.println(results);

@@ -67,6 +67,62 @@ public class Food implements Drawable
         return distance<=size/2;
     }
     
+    float distance(Point v, Point w)
+    {
+        return (float)Math.sqrt(Math.pow((w.x-v.x), 2) + Math.pow((w.y-v.y), 2));
+    }
+    Point minusPoints(Point a, Point b)
+    {
+        return new Point(a.x-b.x,a.y-b.y);
+    }
+    Point addPoints(Point a, Point b)
+    {
+        return new Point(a.x+b.x,a.y+b.y);
+    }
+    float length_squared(Point v, Point w)
+    {
+        return (float)Math.pow(distance(v,w), 2);
+    }
+    float dotPoints(Point a, Point b)
+    {
+        return a.x*b.x + a.y+b.y;
+    }
+    Point mulPoint(float mul, Point a)
+    {
+        return new Point(a.x*mul,a.y*mul);
+    }
+    boolean crossed(Point start, Point end)
+    {
+        Point center = new Point(x,y);
+        /*float l2 = length_squared(start, end);  // i.e. |w-v|^2 -  avoid a sqrt
+        if (l2 == 0.0) return distance(center, start) <= size;   // v == w case
+        // Consider the line extending the segment, parameterizted as v + t (w - v).
+        // We find projection of point p onto the line. 
+        // It falls where t = [(p-v) . (w-v)] / |w-v|^2
+        // We clamp t from [0,1] to handle points outside the segment vw.
+        float t = Math.max(0, Math.min(1, dotPoints(minusPoints(center, start), minusPoints(end,start)) / l2));
+        Point projection = addPoints(start, mulPoint(t, minusPoints(end, start)));  // Projection falls on the segment
+        return distance(center, projection) <= size;*/
+        
+        Point p2 = new Point(end.x - start.x, end.y - start.y);
+        float sum = p2.x*p2.x + p2.y*p2.y;
+        float u = ((center.x - start.x) * p2.x + (center.y - start.y) * p2.y) / sum;
+
+        if (u > 1)
+            u = 1;
+        else if (u < 0)
+            u = 0;
+
+        float x = start.x + u * p2.x;
+        float y = start.y + u * p2.y;
+
+        float dx = x - center.x;
+        float dy = y - center.y;
+
+        double distance = Math.sqrt(dx*dx + dy*dy);
+        return distance<=size/2;
+    }
+    
     @Override
     public String toString()
     {
@@ -98,13 +154,4 @@ public class Food implements Drawable
         }
     }
     //-----------------------------------------------------
-    class Point
-    {
-        public int x,y;
-        public Point(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
 }

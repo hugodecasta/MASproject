@@ -52,7 +52,7 @@ public class MASFrame extends JFrame implements ActionListener
     JButton initB,playPauseB,experimentB;
     MASystem system;
     ButtonGroup algoRadioGroup;
-    JCheckBox killAgentBox,foodLifeBox,foodLifeSizeBox;
+    JCheckBox killAgentBox,foodLifeBox,foodLifeSizeBox,foodCollisionBox;
     JSlider foodSlider,agentSlider,tailleEnvSlider,sleepSlider,pathSlider,taillePatchSlider;
     
     public MASFrame(int width,int height, MASystem system)
@@ -114,6 +114,7 @@ public class MASFrame extends JFrame implements ActionListener
         killAgentBox = addOption(pp,"One eat per agent",temp_params.killAgent);
         foodLifeBox= addOption(pp,"Food life",temp_params.foodLifeSize);
         foodLifeSizeBox= addOption(pp,"Food life with size",temp_params.foodLifeSize);
+        foodCollisionBox= addOption(pp,"Food cross collision",temp_params.foodCollision);
         
         optionPanel.add(new JLabel("Simulation Parameters", SwingConstants.CENTER),BorderLayout.NORTH);
         optionPanel.add(pp,BorderLayout.CENTER);
@@ -259,7 +260,15 @@ public class MASFrame extends JFrame implements ActionListener
         }
         else if(!eNull && e.getSource() == foodLifeSizeBox)
         {
-            foodLifeBox.setSelected(true);
+            if(foodLifeSizeBox.isSelected())
+                foodLifeBox.setSelected(true);
+            initNeeded = true;
+        }
+        else if(!eNull && e.getSource() == foodLifeBox)
+        {
+            if(!foodLifeBox.isSelected())
+                foodLifeSizeBox.setSelected(false);
+            initNeeded = true;
         }
         else
         {
@@ -344,6 +353,7 @@ public class MASFrame extends JFrame implements ActionListener
         simPar.killAgent = killAgentBox.isSelected();
         simPar.foodLife = foodLifeBox.isSelected();
         simPar.foodLifeSize = foodLifeSizeBox.isSelected();
+        simPar.foodCollision = foodCollisionBox.isSelected();
         
         simPar.nbFood = foodSlider.getValue();
         simPar.foodSize = taillePatchSlider.getValue();
