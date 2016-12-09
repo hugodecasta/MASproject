@@ -66,7 +66,7 @@ public class Food implements Drawable
         if(pick)
             return false;
         double distance = Math.sqrt(Math.pow(agent.x-x,2)+Math.pow(agent.y-y,2));
-        return distance<=size/(agentIsSized?2:1);
+        return distance<=size/(agentIsSized?1:2);
     }
     
     float distance(Point v, Point w)
@@ -122,7 +122,7 @@ public class Food implements Drawable
         float dy = y - center.y;
 
         double distance = Math.sqrt(dx*dx + dy*dy);
-        return distance<=size/(agentIsSized?2:1);
+        return distance<=size/(agentIsSized?1:2);
     }
     
     @Override
