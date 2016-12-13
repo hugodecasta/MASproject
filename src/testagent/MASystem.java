@@ -76,27 +76,60 @@ public class MASystem implements Drawable
         int min=0, max=0;
         int step = params.stepNumber;
         int nbUnit = params.unitIteration;
+        String filename = "Exp-"+
+                params.parameterNames[params.testinParameterId]
+                +"_Size="+params.sim.width+"x"+params.sim.height
+                +"_crossCollision="+params.sim.foodCollision
+                +"_agentIsSized="+params.sim.agentIsSized
+                ;
         switch(params.testinParameterId)
         {
+            // nbFood
             case 0:
                 min = 1; max = 101; //step = 1; //nbUnit = 1;
+                filename+= "_agentCount="+params.sim.nbAgents;
+                filename+= "_alpha="+(int)(params.sim.alpha*10);
+                filename+= "_foodSize="+(int)(params.sim.foodSize);
+                filename+= "_Percent="+(int)(params.sim.maxFoodPercent);
                 break;
+            // nbAgent
             case 1:
                 min = 1; max = 101; //step = 1; //nbUnit = 1;
+                filename+= "_foodCount="+params.sim.nbFood;
+                filename+= "_alpha="+(int)(params.sim.alpha*10);
+                filename+= "_foodSize="+(int)(params.sim.foodSize);
+                filename+= "_Percent="+(int)(params.sim.maxFoodPercent);
                 break;
+            // alpha
             case 2:
                 min = 5; max = 20; //step = 1; //nbUnit = 1;
+                filename+= "_agentCount="+params.sim.nbAgents;
+                filename+= "_foodCount="+params.sim.nbFood;
+                filename+= "_foodSize="+(int)(params.sim.foodSize);
+                filename+= "_Percent="+(int)(params.sim.maxFoodPercent);
                 break;
+            // foodSize
             case 3:
                 min = 10; max = 150; //step = 1; //nbUnit = 1;
+                filename+= "_agentCount="+params.sim.nbAgents;
+                filename+= "_foodCount="+params.sim.nbFood;
+                filename+= "_alpha="+(int)(params.sim.alpha*10);
+                filename+= "_Percent="+(int)(params.sim.maxFoodPercent);
                 break;
+            // percent
             case 4:
                 min = 1; max = 100; //step = 1; //nbUnit = 1;
+                filename+= "_agentCount="+params.sim.nbAgents;
+                filename+= "_foodCount="+params.sim.nbFood;
+                filename+= "_alpha="+(int)(params.sim.alpha*10);
+                filename+= "_foodSize="+(int)(params.sim.foodSize);
                 break;
         }
+        filename += ".csv";
         SimulationParameter simul = params.sim;
         
         float testingValue = 0;
+        System.out.println("Start in file '"+filename+"'");
         for(int i=min;i<=max;i+=step)
         {
             System.out.println("Running experiment: "+min+" -> "+max+" by "+step+" (using "+nbUnit+" test unit(s)) doing "+i);
@@ -124,6 +157,7 @@ public class MASystem implements Drawable
                     break;
                 case 4:
                     simul.maxFoodPercent = (float)i/100f;
+                    testingValue = simul.maxFoodPercent;
                     maxFoodPercent = simul.maxFoodPercent;
                     break;
             }
@@ -141,8 +175,7 @@ public class MASystem implements Drawable
                 //cheminMoyen += manager.getChemin();
                 frame.draw();
             }
-            String name = "Exp-"+params.parameterNames[params.testinParameterId]+".csv";
-            results.appendExperimentResult(name,iterMoyenne/nbUnit, testingValue);
+            results.appendExperimentResult(filename,iterMoyenne/nbUnit, testingValue);
             //results.appendExperimentResult(name,cheminMoyen/nbUnit, testingValue);
         }
         

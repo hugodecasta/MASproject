@@ -16,8 +16,11 @@ public class YourAlgo
     static Random random;
     static int algoUsed;
     static float lAlpha;
+    public static String[] algorythmNames = new String[]{"random", "Levy", "leviSimulation", "robot", "spiral"};
+    
     public static void find(Agent agent)
     {
+            
         if(random==null)
             random = new Random();
         switch(algoUsed)

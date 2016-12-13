@@ -11,19 +11,19 @@ package testagent;
  */
 public class SimulationParameter
 {
-    public int width=10000,height=10000;
-    public int nbAgents=10,nbFood=100;
+    public int width=300,height=300;
+    public int nbAgents=5,nbFood=1;
     public int speed=30;
     public float maxFoodPercent=0;
     public int pathMaxLength=200;
     public boolean killAgent=false;
-    public boolean agentIsSized=true;
+    public boolean agentIsSized=false;
     public int usedAlgo=1;
-    public boolean foodLife = true;
+    public boolean foodLife = false;
     public boolean foodLifeSize = false;
-    public boolean foodCollision = true;
-    public int foodSize=500;
-    public float alpha = 2.0f;
+    public boolean foodCollision = false;
+    public int foodSize=100;
+    public float alpha = 1.5f;
     
     public SimulationParameter()
     {
