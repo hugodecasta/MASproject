@@ -3,18 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testagent;
+package BIMASS;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  *
- * @author i3mainz
+ * @author p1608557
  */
-public class Point
-{
-    public float x,y;
-    public Point(float x, float y)
-    {
-        this.x = x;
-        this.y = y;
-    }
-}
+

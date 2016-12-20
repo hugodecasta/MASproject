@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testagent;
+package BIMASS;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.File;
-import javax.imageio.ImageIO;
 import java.util.ArrayList;
 
 /**
@@ -21,20 +19,17 @@ public class Agent implements Drawable
     int type;
     int x,y;
     int old_x,old_y;
-    int angle;
     ArrayList<Point>chemin;
     Color myColor;
     boolean eatten;
     Image image;
     int maxPathLength;
     boolean usePathLength;
-    int distParcourue;
+    Color[]meinColors;
     int power;
     public int nbEaten;
-    //------------------------ pasBioInspi
-    public int directionY = Math.random()<.5?-10:10;
-    public int directionX = Math.random()<.5?-30:30;
-    //------------------------ pasBioInspi
+    //-----------------------------Donnée pour l'algo Robot
+    public int directionY, directionX;
     
     public Agent(int x,int y,int maxPathLength)
     {
@@ -42,9 +37,7 @@ public class Agent implements Drawable
         old_y = y;
         this.x = x;
         this.y = y;
-        this.angle = 90;
         this.power = 1;
-        this.distParcourue = 0;
         this.nbEaten = 0;
         this.chemin = new ArrayList<>();
         initColor();
@@ -84,8 +77,8 @@ public class Agent implements Drawable
         if(usePathLength && chemin.size()==maxPathLength)
             chemin.remove(0);
         
-        int old_x = x;
-        int old_y = y;
+        old_x = x;
+        old_y = y;
         
         x += xMove;
         y += yMove;
@@ -111,18 +104,13 @@ public class Agent implements Drawable
             bumped = 0;
             y = rebond;
         }
-        updateDistance();
+        
         old_x = x;
         old_y = y;
+        
         chemin.add(new Point(x,y));
         
         return bumped;
-    }
-    
-    public void updateDistance()
-    {
-        double dist = Math.sqrt(Math.pow(x-old_x,2)+Math.pow(y-old_y,2));
-        //this.distParcourue += dist;
     }
     
     @Override
@@ -160,13 +148,10 @@ public class Agent implements Drawable
                 
         g.drawImage(image, (int)(w*(x+this.x-size/2)), (int)(w*(y+this.y-size/2)),dsize,dsize,null);
         g.setColor(Color.WHITE);
-        Point pDist = new Point(this.x-size/2, this.y-size/2);
-        g.drawString(distParcourue+" px", (int)(w*(x+pDist.x)), (int)(w*(y+pDist.y)));
         Point pEaten = new Point(this.x-size/2, this.y+size/2);
         g.drawString(""+nbEaten, (int)(w*(x+pEaten.x)), (int)(w*(y+pEaten.y)));
     }
     
-    Color[]meinColors;
     private void initTailColor(int tailLong)
     {
         meinColors = new Color[tailLong];

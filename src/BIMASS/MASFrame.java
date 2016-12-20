@@ -3,31 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testagent;
+package BIMASS;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Panel;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.layout.Border;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -36,7 +29,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -54,6 +46,7 @@ public class MASFrame extends JFrame implements ActionListener
     ButtonGroup algoRadioGroup;
     JCheckBox killAgentBox,foodLifeBox,foodLifeSizeBox,foodCollisionBox;
     JSlider foodSlider,agentSlider,tailleEnvSlider,sleepSlider,pathSlider,taillePatchSlider;
+    HashMap<String,Integer> radios;
     
     public MASFrame(int width,int height, MASystem system)
     {
@@ -63,22 +56,27 @@ public class MASFrame extends JFrame implements ActionListener
         this.system = system;
         this.system.setFrame(this);
         this.setAlwaysOnTop(true);
+        
+        //------------
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double sWidth = screenSize.getWidth();
         double sHeight = screenSize.getHeight();
         double tHeight = sHeight-sHeight*0.1;
         double guiSize = tHeight/3;
         double tWidth = tHeight+guiSize;
+        //------------
         
-        
+        //------------
         this.setPreferredSize(new Dimension((int)tWidth, (int)tHeight));
         this.setResizable(false);
         this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         
+        //------------
         panel = new MASPanel(width,height,system);
         panel.setPreferredSize(new Dimension((int)tHeight,(int)tHeight));
+        //------------
         
-        
+        //------------
         JPanel initPanel = new JPanel();
         initB = new JButton("INIT");
         initB.addActionListener(this);
@@ -86,18 +84,21 @@ public class MASFrame extends JFrame implements ActionListener
         playPauseB.addActionListener(this);
         initPanel.add(initB);
         initPanel.add(playPauseB);
+        //------------
         
+        //------------
         JPanel experimentPanel = new JPanel();
         experimentB = new JButton("EXPERIMENT");
         experimentB.addActionListener(this);
         experimentPanel.add(experimentB);
+        //------------
         
+        //------------
         algoPanel = new JPanel();
         algoPanel.setLayout(new BorderLayout());
         algoPanel.setBorder(BorderFactory.createMatteBorder(1,0,1,0,Color.GRAY));
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(2,2));
-        //absParamPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         algoRadioGroup = new ButtonGroup();
         addRadio(p,"random", -1,true);
         addRadio(p,"Levy", 1);
@@ -106,7 +107,9 @@ public class MASFrame extends JFrame implements ActionListener
         
         algoPanel.add(new JLabel("Algorithm choice", SwingConstants.CENTER),BorderLayout.NORTH);
         algoPanel.add(p,BorderLayout.CENTER);
+        //------------
         
+        //------------
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
         JPanel pp = new JPanel();
@@ -118,7 +121,9 @@ public class MASFrame extends JFrame implements ActionListener
         
         optionPanel.add(new JLabel("Simulation Parameters", SwingConstants.CENTER),BorderLayout.NORTH);
         optionPanel.add(pp,BorderLayout.CENTER);
+        //------------
                 
+        //------------
         cursorParamPanel = new JPanel();
         cursorParamPanel.setLayout(new GridLayout(2,3));
         foodSlider = addSlider("food count",1,101,temp_params.nbFood,1,10);
@@ -127,9 +132,10 @@ public class MASFrame extends JFrame implements ActionListener
         sleepSlider = addSlider("sleep time",1,101,temp_params.speed,10,10);
         taillePatchSlider = addSlider("food size",10,500,temp_params.foodSize,50,100);
         tailleEnvSlider = addSlider("MAS size",100,10000,temp_params.width,100,1000);
+        //------------
         
+        //------------
         GUI = new JPanel();
-        //GUI.setBorder(BorderFactory.createLineBorder(Color.red));
        
         GUI.setPreferredSize(new Dimension((int)guiSize+22,(int)tHeight));
         GUI.setLayout(new GridBagLayout());
@@ -151,20 +157,25 @@ public class MASFrame extends JFrame implements ActionListener
         c.weighty = 10;
         c.gridy = 4;
         GUI.add(cursorParamPanel,c);
+        //------------
         
+        //------------
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.VERTICAL;
         this.add(panel,BorderLayout.CENTER);
         this.add(GUI,BorderLayout.EAST);
+        //------------
         
+        //------------
         this.pack();
         this.setVisible(true);
+        //------------
+        
         updateGUI();
         initMAS();
         launchSystem();
     }
     
-    HashMap<String,Integer> radios;
     private void addRadio(JPanel p,String name,int algoId)
     {
         addRadio(p,name,algoId,false);
@@ -239,11 +250,15 @@ public class MASFrame extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
         boolean eNull = e==null;
-        if(!eNull && e.getSource() == initB)
+        if(eNull)
+        {
+            initNeeded = true;
+        }
+        else if(e.getSource() == initB)
         {
             initMAS();
         }
-        else if(!eNull && e.getSource() == playPauseB)
+        else if(e.getSource() == playPauseB)
         {
             if(system.play)
             {
@@ -254,17 +269,17 @@ public class MASFrame extends JFrame implements ActionListener
                 system.play();
             }
         }
-        else if(!eNull && e.getSource() == experimentB)
+        else if(e.getSource() == experimentB)
         {
             launchGuiExperiment();
         }
-        else if(!eNull && e.getSource() == foodLifeSizeBox)
+        else if(e.getSource() == foodLifeSizeBox)
         {
             if(foodLifeSizeBox.isSelected())
                 foodLifeBox.setSelected(true);
             initNeeded = true;
         }
-        else if(!eNull && e.getSource() == foodLifeBox)
+        else if(e.getSource() == foodLifeBox)
         {
             if(!foodLifeBox.isSelected())
                 foodLifeSizeBox.setSelected(false);
@@ -320,8 +335,7 @@ public class MASFrame extends JFrame implements ActionListener
         {
             experimentError("No experiment can be run with the \"One eat per agent\" parameter selected");
             return;
-        }
-            
+        }            
 
         ExperimentThread thread = new ExperimentThread(system,exp);
         thread.start();
@@ -333,9 +347,6 @@ public class MASFrame extends JFrame implements ActionListener
             error,
             "Non testable parameters",
             JOptionPane.ERROR_MESSAGE);
-    }
-    public void experimentEnded()
-    {
     }
     
     @Override
@@ -364,6 +375,7 @@ public class MASFrame extends JFrame implements ActionListener
         simPar.pathMaxLength = pathSlider.getValue();
         return simPar;
     }
+    
     public void initMAS()
     {
         SimulationParameter simPar = createSimParam();
@@ -382,7 +394,6 @@ public class MASFrame extends JFrame implements ActionListener
         {
             this.width = width;
             this.height = height;
-            //this.setPreferredSize(new Dimension(width, height));
             this.system = system;
         }
         

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testagent;
+package BIMASS;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -35,21 +35,11 @@ public class AgentManager implements Drawable
         nbIteration = 0;
     }
     
-    public float getChemin()
-    {
-        int chemin = 0;
-        for(Agent a : agents)
-        {
-            chemin += a.distParcourue;
-        }
-        return chemin/agents.size();
-    }
-    
     private void initAgents(int maxPathLength)
     {
         Image image = null;
         try {
-            image = ImageIO.read(new File("src/testagent/eatter.png"));
+            image = ImageIO.read(new File("src/BIMASS/eatter.png"));
         } catch (IOException ex) {
             Logger.getLogger(AgentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -101,7 +91,6 @@ public class AgentManager implements Drawable
         
         for(Agent a : removers)
         {
-            //agents.remove(a);
             a.eatten = true;
             a.nbEaten += a.power;
         }

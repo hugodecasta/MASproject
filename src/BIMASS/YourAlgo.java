@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testagent;
+package BIMASS;
 
 import java.util.Random;
 
@@ -101,8 +101,6 @@ public class YourAlgo
         
         double angle = random.nextDouble()*(2*Math.PI);
         
-        /*double randXMove = random.nextDouble()*2-1;
-        double randYMove = random.nextDouble()*2-1;*/
         double xMove = pas*Math.cos(angle);
         double yMove = pas*Math.sin(angle);
         

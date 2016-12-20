@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testagent;
+package BIMASS;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -42,25 +42,35 @@ public class ExperimentParamFrame extends JFrame implements ActionListener
     
     public ExperimentParamFrame(MASFrame frame)
     {
+        //------------
         super("Experiment parameters panel");
         ExperimentParameter temp_params = new ExperimentParameter();
         this.frame = frame;
+        //------------
+        
+        //------------
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                
         double tHeight = screenSize.getHeight()/4;
         double tWidth = screenSize.getWidth()/3.5;
         
+        //------------
         this.setPreferredSize(new Dimension((int)tWidth, (int)tHeight));
         this.setResizable(true);
         this.setAlwaysOnTop(true);
+        //------------
         
+        //------------
         panel = new JPanel(new GridLayout(3,1));
         panel.setPreferredSize(new Dimension((int)tWidth, (int)tHeight));
+        //------------
         
+        //------------
         launchButton = new JButton("LAUNCH");
         launchButton.addActionListener(this);
         panel.add(launchButton,BorderLayout.NORTH);
+        //------------
         
+        //------------
         exp = new ExperimentParameter();
         experRadioGroup = new ButtonGroup();
         int id = 0;
@@ -75,7 +85,9 @@ public class ExperimentParamFrame extends JFrame implements ActionListener
         algoPanel.add(algoPanelChoice);
         panel.add(algoPanel);
         algoPanel.setBorder(BorderFactory.createMatteBorder(0,0,1,0,Color.GRAY));
+        //------------
         
+        //------------
         SpinnerModel model1 = new SpinnerNumberModel();
         SpinnerModel model2 = new SpinnerNumberModel();
         stepSpinner = new JSpinner(model1);
@@ -88,14 +100,13 @@ public class ExperimentParamFrame extends JFrame implements ActionListener
         unitSpinner.setValue(temp_params.unitIteration);
         spinnerPanel.add(unitSpinner);
         panel.add(spinnerPanel);
+        //------------
         
-        /*affichage = new JLabel("<html>VOICI L'AFFICHAGE<br></html>");
-        addText("coucou je test je test<br>même à la ligne");
-        panel.add(affichage,BorderLayout.CENTER);*/
-        
+        //------------
         this.add(panel);
         this.pack();
         this.setVisible(true);
+        //------------
     }
     
     public void addText(String text)

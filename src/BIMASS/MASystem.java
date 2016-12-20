@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testagent;
+package BIMASS;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +39,7 @@ public class MASystem implements Drawable
     {
         
         try {
-            background = ImageIO.read(new File("src/testagent/background.png"));
+            background = ImageIO.read(new File("src/BIMASS/background.png"));
         } catch (IOException ex) {
             Logger.getLogger(MASystem.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,12 +52,12 @@ public class MASystem implements Drawable
         startTime = 0;
         endTime = 0;
         timeAdder = 0;
-        this.width = params.width;
-        this.height = params.height;
+        width = params.width;
+        height = params.height;
         manager = new AgentManager(params.nbAgents,params.killAgent,params.pathMaxLength,params.foodCollision);
         beginFoodCount = params.nbFood;
         initManger(params.nbFood,params.foodSize,params.foodLife,params.foodLifeSize,params.agentIsSized);
-        this.speed = params.speed;
+        speed = params.speed;
         YourAlgo.setAlgoUsed(params.usedAlgo);
         YourAlgo.setLevyAlpha(params.alpha);
     }
@@ -162,7 +160,6 @@ public class MASystem implements Drawable
                     break;
             }
             int iterMoyenne = 0;
-            int cheminMoyen = 0;
             for(int j=0;j<nbUnit;j++)
             {
                 init(simul);
@@ -172,11 +169,9 @@ public class MASystem implements Drawable
                     foodRemain = updateOnly();
                 }
                 iterMoyenne += manager.nbIteration;
-                //cheminMoyen += manager.getChemin();
                 frame.draw();
             }
             results.appendExperimentResult(filename,iterMoyenne/nbUnit, testingValue);
-            //results.appendExperimentResult(name,cheminMoyen/nbUnit, testingValue);
         }
         
         System.out.println(results);
@@ -212,16 +207,14 @@ public class MASystem implements Drawable
         Image eatted = null;
         try
         {
-            food = ImageIO.read(new File("src/testagent/food.png"));
-            eatted = ImageIO.read(new File("src/testagent/eatted.png"));
+            food = ImageIO.read(new File("src/BIMASS/food.png"));
+            eatted = ImageIO.read(new File("src/BIMASS/eatted.png"));
         }catch(Exception e)
         {
             System.err.append(e.getMessage());
         }
         manger = new ArrayList<>();
-        //TODO
-        // food aléa
-        // food spot
+        
         int foodSize = size;
         for(int i=0;i<nbMax;++i)
         {
@@ -292,9 +285,6 @@ public class MASystem implements Drawable
         else if(play)
             pause();
         
-        /*g.setColor(Color.white);
-        g.fillRect((int)(x*w), (int)(y*h), (int)(width*w), (int)(height*h));*/
-        
         g.drawImage(background, (int)(x*w), (int)(y*h),(int)(width*w), (int)(height*h),null);
         
         for(Food f : manger)
@@ -313,9 +303,7 @@ public class MASystem implements Drawable
         {
             endTime = System.currentTimeMillis();
         }
-        /*if(remainingFood() > 0)
-            endTime = System.currentTimeMillis();*/
-        //int second = (int)((endTime - startTime)/1000);
+        
         int second = (int)(((endTime-startTime)+timeAdder)/1000);
         String strTime = second+"s";
         if(second>60)
