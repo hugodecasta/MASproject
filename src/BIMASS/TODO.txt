@@ -1,0 +1,44 @@
+//TODO
+
+    - COMMENTER !!!
+
+  Amélioration graphiques:
+*    - Taille panel = taille écran (et pas l'inverse)
+*    - regérer temps
+
+  - Lire fichier arena
+~ - Grille food generation
+
+  Interface:
+*   - démarrer la simuation / stopper la simulation
+
+*   - selection du mode de déplacement (Radio ou Combo)
+*   - case à cocher (mort de l'agent lors de la mangeaizon)
+
+*   - taille environnement
+*   - gérer le sleep (curseur)
+*   - curseur si oui (taille max du chemin)
+*   - nombre d'entité (agent / food) -> curseur (min - max)
+*   - taille des patchs
+
+*   - Enable / Disable panels
+
+  Amélioration:
+    - principe spiral à mémoire
+    - répartition de la food (par secteur)
+   (- moving food)
+
+    - experiment laucnher dans MASFrame (vérifier l'udpateGUI)
+    - après experiement afficher le résult
+    - calculer les résultats de l'experiment (fitness, algo glouton, ...)
+    - rapport d'expérience
+
+------------------------------------------------------------------------------------------------------------
+NOTES
+------------------------------------------------------------------------------------------------------------
+
+Lors de l'experimentation visant à determiner le nombre de patch optimal pour 2 agents, les résultats ont été différents des prévisions:
+Nous pensions obtenir une courbe exponentielle (justifier)
+Le résultat semble plutôt correspondre à une courbe logarithmique (justifier)
+
+Pourcentage de mort par patch ()
