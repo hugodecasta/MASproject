@@ -20,11 +20,11 @@ import javax.imageio.ImageIO;
  */
 public class AgentManager implements Drawable
 {
-    ArrayList<Agent>agents;
-    int agentNumber;
-    boolean killAgent;
-    boolean foodCollision;
-    int nbIteration;
+    ArrayList<Agent>agents; // liste des agents
+    int agentNumber; // nombre des agents
+    boolean killAgent; // indique si les agents ne peuvent manger qu'une nourriture
+    boolean foodCollision; // indique si la collision (passage au dessus des nourritures) est activé
+    int nbIteration; // décompte du nombre d'itérations
     
     public AgentManager(int agentNumber,boolean killAgent,int maxPathLength, boolean foodCollision)
     {
@@ -35,14 +35,17 @@ public class AgentManager implements Drawable
         nbIteration = 0;
     }
     
+    // initialisation des agents dans le système
     private void initAgents(int maxPathLength)
     {
+        // init image
         Image image = null;
         try {
             image = ImageIO.read(new File("src/BIMASS/eatter.png"));
         } catch (IOException ex) {
             Logger.getLogger(AgentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // init positionnement
         agents = new ArrayList<>();
         for(int i=0;i<agentNumber;++i)
         {
@@ -54,6 +57,7 @@ public class AgentManager implements Drawable
         }
     }
     
+    // interaction des agents sur le système
     public void run()
     {
         ArrayList<Agent> removers = new ArrayList<>();
@@ -113,6 +117,7 @@ public class AgentManager implements Drawable
         return ret;
     }
 
+    // affichage des agents dans le système
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
     {

@@ -17,20 +17,21 @@ import java.util.ArrayList;
 public class Agent implements Drawable
 {
     int type;
-    int x,y;
-    int old_x,old_y;
-    ArrayList<Point>chemin;
-    Color myColor;
+    int x,y; // coordonnées
+    int old_x,old_y; // anciennes coordonnées
+    ArrayList<Point>chemin; // tableau des positions traversées
+    Color myColor; // couleur du chemin
     boolean eatten;
-    Image image;
-    int maxPathLength;
+    Image image; // apparence sur le logiciel
+    int maxPathLength; // taille du tableau de chemin
     boolean usePathLength;
     Color[]meinColors;
     int power;
-    public int nbEaten;
+    public int nbEaten; // nombre de food mangées
     //-----------------------------Donnée pour l'algo Robot
-    public int directionY, directionX;
+    public int directionY, directionX; // pas X et Y
     
+    // création et initialisation d'un agent
     public Agent(int x,int y,int maxPathLength)
     {
         old_x = x;
@@ -53,6 +54,7 @@ public class Agent implements Drawable
         this.image = image;
     }
     
+    // création aléatoire d'une couleur pour le chemin de l'agent
     private void initColor()
     {
         int min = 50,max = 255;
@@ -66,10 +68,12 @@ public class Agent implements Drawable
     {
         YourAlgo.find(this);
     }
+    
     Point getPosition()
     {
         return new Point(this.x,this.y);
     }
+    
     public int move(int xMove,int yMove)
     {
         int bumped = -1;
@@ -83,6 +87,8 @@ public class Agent implements Drawable
         x += xMove;
         y += yMove;
         
+        // un rebond correspond à l'empêchement pour un agent de sortir du système
+        // à la place, il est arrêté à distance de la "frontière" du système
         int rebond = 10;
         if(x>MASystem.width)
         {
@@ -119,6 +125,8 @@ public class Agent implements Drawable
         String ret = "AGENT - "+x+", "+y+" - "+chemin.size();
         return ret;
     }
+    
+    // gestion de l'affichage du système
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
     {
