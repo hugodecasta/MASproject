@@ -15,15 +15,15 @@ import java.awt.Image;
  */
 public class Food implements Drawable
 {
-    int x,y; // coordonnées sur le système
-    int startSize,size; // taille de la food (et taille actuelle si useSize est actif)
-    int life; // vie du patch de food (lié à sa taille)
-    boolean pick; // indique si le patch a été mangé
-    boolean useLife; // patch one shot ou avec de la vie
-    boolean useSize; // doit avoir useLife actif, le patch diminueras de taille a chaque passage d'un agent
-    int minSize; // taille minimale d'un patch
-    boolean agentIsSized; // les agents disposent d'une hitbox (ilssont des volumes, pas des points)
-    Image food, eatted; // images représentant les patchs sous leurs deux états
+    int x,y;
+    int startSize,size;
+    int life;
+    boolean pick;
+    boolean useLife;
+    boolean useSize;
+    int minSize;
+    boolean agentIsSized;
+    Image food, eatted;
     
     public Food(int x,int y,int size,boolean useLife,boolean useSize, boolean agentIsSized)
     {
@@ -45,17 +45,13 @@ public class Food implements Drawable
         this.eatted = eatted;
     }
     
-    // gère le contact d'un agent et d'un patch
     public void pick(int power)
     {
-        // si le patch possède de la vie, il en perd un montant, sinon il la perd entièrement
         this.life -= useLife?power:this.life;
-        // si le patch perd de la taille à chaque contact, il passe à une taille liée à sa vie
         if(useSize)
         {
             this.size = this.life;
         }
-        // si le patch n'as plus de vie, il regagne sa taille de départ
         this.pick = this.life <= minSize || (!useLife);
         if(pick)
             this.size = startSize;

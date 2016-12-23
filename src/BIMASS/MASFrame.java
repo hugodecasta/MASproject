@@ -50,7 +50,6 @@ public class MASFrame extends JFrame implements ActionListener
     
     public MASFrame(int width,int height, MASystem system)
     {
-        // titre
         super("Bio-Inspired Multi-Agent Simulation System (BIMASS)");
         
         SimulationParameter temp_params = new SimulationParameter();
@@ -58,7 +57,7 @@ public class MASFrame extends JFrame implements ActionListener
         this.system.setFrame(this);
         this.setAlwaysOnTop(true);
         
-        //------------   taille de l'écran
+        //------------
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double sWidth = screenSize.getWidth();
         double sHeight = screenSize.getHeight();
@@ -67,7 +66,7 @@ public class MASFrame extends JFrame implements ActionListener
         double tWidth = tHeight+guiSize;
         //------------
         
-        //------------   setting de l'application
+        //------------
         this.setPreferredSize(new Dimension((int)tWidth, (int)tHeight));
         this.setResizable(false);
         this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -77,7 +76,7 @@ public class MASFrame extends JFrame implements ActionListener
         panel.setPreferredSize(new Dimension((int)tHeight,(int)tHeight));
         //------------
         
-        //------------    création de l'interface
+        //------------
         JPanel initPanel = new JPanel();
         initB = new JButton("INIT");
         initB.addActionListener(this);
@@ -87,14 +86,14 @@ public class MASFrame extends JFrame implements ActionListener
         initPanel.add(playPauseB);
         //------------
         
-        //------------   fenêtre Experiment
+        //------------
         JPanel experimentPanel = new JPanel();
         experimentB = new JButton("EXPERIMENT");
         experimentB.addActionListener(this);
         experimentPanel.add(experimentB);
         //------------
         
-        //------------   fenêtre principale - paramètres
+        //------------
         algoPanel = new JPanel();
         algoPanel.setLayout(new BorderLayout());
         algoPanel.setBorder(BorderFactory.createMatteBorder(1,0,1,0,Color.GRAY));
@@ -135,7 +134,7 @@ public class MASFrame extends JFrame implements ActionListener
         tailleEnvSlider = addSlider("MAS size",100,10000,temp_params.width,100,1000);
         //------------
         
-        //------------   Création de l'affichage du système multi-agents
+        //------------
         GUI = new JPanel();
        
         GUI.setPreferredSize(new Dimension((int)guiSize+22,(int)tHeight));
@@ -176,8 +175,6 @@ public class MASFrame extends JFrame implements ActionListener
         initMAS();
         launchSystem();
     }
-    
-    // -------------   Gestion automatique des composants
     
     private void addRadio(JPanel p,String name,int algoId)
     {
@@ -300,7 +297,6 @@ public class MASFrame extends JFrame implements ActionListener
         system.run();
     }
     
-    // ---------------   Affichage de l'interface
     boolean initNeeded;
     public void updateGUI()
     {
