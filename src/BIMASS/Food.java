@@ -16,13 +16,13 @@ import java.awt.Image;
 public class Food implements Drawable
 {
     int x,y;
-    int startSize,size;
-    int life;
-    boolean pick;
-    boolean useLife;
-    boolean useSize;
-    int minSize;
-    boolean agentIsSized;
+    int startSize,size; // tailles en pixels des patchs
+    int life; // vie restante
+    boolean pick; // a été mangé
+    boolean useLife; // possède de la vie
+    boolean useSize; // diminuera sa taille en fonction de sa vie
+    int minSize; // taille minimale
+    boolean agentIsSized; // les agents possèdent une taille
     Image food, eatted;
     
     public Food(int x,int y,int size,boolean useLife,boolean useSize, boolean agentIsSized)
@@ -45,6 +45,7 @@ public class Food implements Drawable
         this.eatted = eatted;
     }
     
+    // gestion du contact food/agent
     public void pick(int power)
     {
         this.life -= useLife?power:this.life;
@@ -57,6 +58,7 @@ public class Food implements Drawable
             this.size = startSize;
     }
     
+    // gestion du contact avec un agent avec une taille
     public boolean touched(Agent agent)
     {
         if(pick)
@@ -65,6 +67,7 @@ public class Food implements Drawable
         return distance<=size/(agentIsSized?1:2);
     }
     
+    // ------------- fonctions mathématiques de gestion de l'espace
     float distance(Point v, Point w)
     {
         return (float)Math.sqrt(Math.pow((w.x-v.x), 2) + Math.pow((w.y-v.y), 2));
@@ -89,6 +92,9 @@ public class Food implements Drawable
     {
         return new Point(a.x*mul,a.y*mul);
     }
+    // ----------------------------------------------
+    
+    // gestion cross-collision
     boolean crossed(Point start, Point end)
     {
         Point center = new Point(x,y);

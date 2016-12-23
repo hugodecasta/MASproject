@@ -20,11 +20,11 @@ import javax.imageio.ImageIO;
  */
 public class AgentManager implements Drawable
 {
-    ArrayList<Agent>agents;
-    int agentNumber;
-    boolean killAgent;
-    boolean foodCollision;
-    int nbIteration;
+    ArrayList<Agent>agents; // on garde en mémoire tous les agents
+    int agentNumber; // ID de l'agent 
+    boolean killAgent; // indique si agent continue d'agir après un contact avec une nourriture
+    boolean foodCollision; // la "collision" est le passage d'un agent au dessus d'un patch
+    int nbIteration; // compte le nombre d'itérations
     
     public AgentManager(int agentNumber,boolean killAgent,int maxPathLength, boolean foodCollision)
     {
@@ -44,6 +44,7 @@ public class AgentManager implements Drawable
             Logger.getLogger(AgentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         agents = new ArrayList<>();
+        // placement des agents (aléatoire)
         for(int i=0;i<agentNumber;++i)
         {
             int x = (int)(Math.random()*MASystem.width);
@@ -57,9 +58,10 @@ public class AgentManager implements Drawable
     public void run()
     {
         ArrayList<Agent> removers = new ArrayList<>();
-        
+        // gestion de chaque agent 
         for(Agent a : agents)
         {
+            // si un agent a mangé un patch et que killagent est activé, il est immobilisé
             if(!(killAgent && a.eatten))
             {
                 Point start = null, end=null;
@@ -69,11 +71,12 @@ public class AgentManager implements Drawable
                 a.find();
                 if(foodCollision)
                     end = a.getPosition();
-                
+                // gestion des contacts
                 for(Food f : MASystem.manger)
                 {
                     if(f.touched(a))
                     {
+                        // patch mangé
                         removers.add(a);
                         f.pick(a.power);
                     }
@@ -81,6 +84,7 @@ public class AgentManager implements Drawable
                     {
                         if(f.crossed(start, end))
                         {
+                            // patch mangé
                             removers.add(a);
                             f.pick(a.power);
                         }
@@ -88,7 +92,7 @@ public class AgentManager implements Drawable
                 }
             }
         }
-        
+        // décompte des patchs restants
         for(Agent a : removers)
         {
             a.eatten = true;

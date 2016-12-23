@@ -57,7 +57,7 @@ public class MASFrame extends JFrame implements ActionListener
         this.system.setFrame(this);
         this.setAlwaysOnTop(true);
         
-        //------------
+        //------------ paramètres pannel principal
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double sWidth = screenSize.getWidth();
         double sHeight = screenSize.getHeight();
@@ -76,7 +76,7 @@ public class MASFrame extends JFrame implements ActionListener
         panel.setPreferredSize(new Dimension((int)tHeight,(int)tHeight));
         //------------
         
-        //------------
+        //------------ interface modifiant les paramètres
         JPanel initPanel = new JPanel();
         initB = new JButton("INIT");
         initB.addActionListener(this);
@@ -93,7 +93,7 @@ public class MASFrame extends JFrame implements ActionListener
         experimentPanel.add(experimentB);
         //------------
         
-        //------------
+        //------------ interface de sélection des algorithmes
         algoPanel = new JPanel();
         algoPanel.setLayout(new BorderLayout());
         algoPanel.setBorder(BorderFactory.createMatteBorder(1,0,1,0,Color.GRAY));
@@ -109,7 +109,7 @@ public class MASFrame extends JFrame implements ActionListener
         algoPanel.add(p,BorderLayout.CENTER);
         //------------
         
-        //------------
+        //------------ interface modifiant les paramètres
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
         JPanel pp = new JPanel();
@@ -134,7 +134,7 @@ public class MASFrame extends JFrame implements ActionListener
         tailleEnvSlider = addSlider("MAS size",100,10000,temp_params.width,100,1000);
         //------------
         
-        //------------
+        //------------ pannel des experiments
         GUI = new JPanel();
        
         GUI.setPreferredSize(new Dimension((int)guiSize+22,(int)tHeight));
@@ -176,6 +176,7 @@ public class MASFrame extends JFrame implements ActionListener
         launchSystem();
     }
     
+    // ---------------------- fonctions de création/gestion des composants de l'IHM
     private void addRadio(JPanel p,String name,int algoId)
     {
         addRadio(p,name,algoId,false);
@@ -245,7 +246,9 @@ public class MASFrame extends JFrame implements ActionListener
         allowDraw = true;
         this.repaint();
     }
+    // --------------------------------------------------
     
+    // gestion des composants
     @Override
     public void actionPerformed(ActionEvent e)
     {

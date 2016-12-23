@@ -19,11 +19,11 @@ public class Agent implements Drawable
     int type;
     int x,y;
     int old_x,old_y;
-    ArrayList<Point>chemin;
-    Color myColor;
-    boolean eatten;
+    ArrayList<Point>chemin; // liste des points traversé
+    Color myColor; // couleur du chemin
+    boolean eatten; // indique si il a déjà mangé un patch de nourriture
     Image image;
-    int maxPathLength;
+    int maxPathLength; // taille maximale de chemin
     boolean usePathLength;
     Color[]meinColors;
     int power;
@@ -52,7 +52,7 @@ public class Agent implements Drawable
     {
         this.image = image;
     }
-    
+     // création aléatoire de la couleur du chemin
     private void initColor()
     {
         int min = 50,max = 255;
@@ -83,6 +83,8 @@ public class Agent implements Drawable
         x += xMove;
         y += yMove;
         
+        // le rebond consiste à empêcher l'agent de sortir du système 
+        // en le ramenant à une certaine distance de la frontière
         int rebond = 10;
         if(x>MASystem.width)
         {
@@ -119,6 +121,8 @@ public class Agent implements Drawable
         String ret = "AGENT - "+x+", "+y+" - "+chemin.size();
         return ret;
     }
+    
+    // gestion de l'affichage des agents
     @Override
     public void draw(int x, int y, double w, double h, Graphics g)
     {
